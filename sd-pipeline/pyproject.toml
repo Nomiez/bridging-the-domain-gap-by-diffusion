@@ -5,7 +5,41 @@ description = "Default template for PDM package"
 authors = [
     {name = "Simon Okutan", email = "simon.okutan@tum.de"},
 ]
-dependencies = []
+
+dependencies = [
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "numpy==1.23.1",
+    "gradio==3.16.2",
+    "albumentations==1.3.0",
+    "opencv-contrib-python",
+    "imageio==2.9.0",
+    "imageio-ffmpeg==0.4.2",
+    "pytorch-lightning==1.5.0",
+    "omegaconf==2.1.1",
+    "test-tube>=0.7.5",
+    "streamlit==1.12.1",
+    "einops==0.3.0",
+    "transformers",
+    "webdataset==0.2.5",
+    "kornia==0.6",
+    "open_clip_torch==2.0.2",
+    "invisible-watermark>=0.1.5",
+    "streamlit-drawable-canvas==0.8.0",
+    "torchmetrics==0.6.0",
+    "timm==0.6.12",
+    "addict==2.4.0",
+    "yapf==0.32.0",
+    "prettytable==3.6.0",
+    "safetensors==0.2.7",
+    "basicsr==1.4.2",
+    "pyrallis==0.3.1",
+    "scikit-learn==1.2.2",
+    "natsort>=8.4.0",
+    "mit-semseg>=1.0.0",
+]
+
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
