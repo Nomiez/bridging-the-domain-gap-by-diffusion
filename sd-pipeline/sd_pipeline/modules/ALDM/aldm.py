@@ -6,10 +6,10 @@ import json
 from einops import rearrange
 from pytorch_lightning import seed_everything
 
-from ...wrapper.aldm.cldm.model import create_model, load_state_dict
-from ...wrapper.aldm.cldm.ddim_hacked import DDIMSampler
-from ...wrapper.aldm.dataloader.cityscapes import CityscapesBaseInfo
-from ...wrapper.aldm.dataloader.custom_transform import *
+from ..._wrapper.aldm.cldm.model import create_model, load_state_dict
+from ..._wrapper.aldm.cldm.ddim_hacked import DDIMSampler
+from ..._wrapper.aldm.dataloader.cityscapes import CityscapesBaseInfo
+from ..._wrapper.aldm.dataloader.custom_transform import *
 
 from ...components import Module
 from ...components.pipeline_config import PipelineConfig

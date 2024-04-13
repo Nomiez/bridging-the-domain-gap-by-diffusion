@@ -1,4 +1,4 @@
-from sd_pipeline.components import Pipeline, PipelineConfig
+from sd_pipeline.components import Pipeline, PipelineConfig, SubPipeline
 from sd_pipeline.modules.ALDM import ALDM, ALDMConfig
 
 if __name__ == '__main__':
@@ -16,5 +16,12 @@ if __name__ == '__main__':
         'label_path': 'input/frankfurt_000000_000576_gtFine_labelIds.png'
     }
 
-    Pipeline.init(input_data=input_image, pipeline_config=pipeline_config) \
-        .step(ALDM(config=aldm_config))
+    result = (
+        Pipeline.init(input_data=input_image, pipeline_config=pipeline_config)
+        .collect(
+            SubPipeline.init().step(ALDM(config=aldm_config)),
+            iterations=2
+        )
+        .flatten()
+        .run()
+    )
