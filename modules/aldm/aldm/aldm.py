@@ -1,23 +1,27 @@
 import os
+import random
+
 from PIL import Image
 import PIL
 import numpy as np
 import torch
+import random
 
-import json
 from einops import rearrange
 from pytorch_lightning import seed_everything
+from pathlib import Path
 
 from sd_pipeline_typing.types import Module
 
 from ._wrapper.cldm.model import create_model, load_state_dict
 from ._wrapper.cldm.ddim_hacked import DDIMSampler
+from ._wrapper.dataloader.carla_seg_helper import map_color_to_trainId
 from ._wrapper.dataloader.cityscapes import CityscapesBaseInfo
 
 from .config import ALDMConfig
 
 H, W = 512, 1024
-label_color_map = CityscapesBaseInfo().create_label_colormap(version='ade20k')
+label_color_map = CityscapesBaseInfo().create_label_colormap()
 
 
 def convert_labels(label, labels_info):
@@ -60,26 +64,34 @@ def convert_id_to_control(label_id, model):
     return control
 
 
+rand = random.Random()
+
+
 class ALDM(Module):
     def __init__(self, *, config: ALDMConfig):
         self.config = config
 
-    def run(self, input_data: dict[str, Image.Image], pipeline_config) -> dict[str, Image.Image]:
+        if self.config.random_seed and rand.seed is not None:
+            rand.seed(self.config.seed)
+
+    def run(self, input_data: dict[str, str | Image.Image], pipeline_config) -> dict[str, str | Image.Image]:
+        config = self.config
         output = {}
 
+        if config.random_seed:
+            config.seed = rand.randint(0, 1000000)
+
         image = input_data["image"]
-        img_name = input_data["name"]
+        img_name = Path(input_data["name"]).stem + f"_{config.seed}" + Path(input_data["name"]).suffix
 
-        model_config = 'data/models/cldm_seg_ade20k_multi_step_D.yaml'
-        checkpoint_dir = os.path.join(pipeline_config.checkpoint_dir, "ade20k_step9.ckpt")
-
-        with open(os.path.join(pipeline_config.checkpoint_dir, "info/cityscapes_info.json"), 'r') as fr:
-            labels_info = json.load(fr)
+        model_path = f'data/models/{config.model}'
+        model_config = os.path.join(model_path, f"cldm_seg_{config.model}_multi_step_D.yaml")
+        model_checkpoint = os.path.join(model_path, f"{config.model}_step9.ckpt")
 
         segmenter_config = None
         model = create_model(model_config, extra_segmenter_config=segmenter_config).cpu()
 
-        model.load_state_dict(load_state_dict(checkpoint_dir, location='cpu'), strict=False)
+        model.load_state_dict(load_state_dict(model_checkpoint, location='cpu'), strict=False)
         model = model.cuda()
         ddim_sampler = DDIMSampler(model)
 
@@ -87,21 +99,24 @@ class ALDM(Module):
             model.model_attend.image_ratio = W / H
             model.model_attend.attention_store.image_ratio = W / H
 
-        label = read_label(image, labels_info)
+        label = map_color_to_trainId(image, img_name, label_color_map, W, H)
+
         label_color = label_encode_color(label)  # (512, 1024, 3)
+        Image.fromarray(label_color).save(os.path.join("debug", f"segmentation-{img_name}.png"))
+
         label_id = label_encode_id(label)  # (1, 512, 1024)
         control_cond = convert_id_to_control(label_id, model)  # (768, 128, 256)
 
         # Define the prompt here
-        prompt = self.config.prompt if not self.config.neg else ''
+        prompt = config.prompt if not config.neg else ''
 
         # # Define the negative prompt here
-        n_prompt = self.config.prompt if self.config.neg else ''
+        n_prompt = config.prompt if config.neg else ''
 
-        num_samples = self.config.num_samples
-        ddim_steps = self.config.ddim_steps
-        cfg_scale = self.config.cfg_scale
-        seed = self.config.seed
+        num_samples = config.num_samples
+        ddim_steps = config.ddim_steps
+        cfg_scale = config.cfg_scale
+        seed = config.seed
 
         control = torch.stack([control_cond for _ in range(num_samples)], dim=0)
         control = control.clone().cuda()

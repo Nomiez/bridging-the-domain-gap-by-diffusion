@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Dict, Tuple, Callable, Optional
 
 from PIL.Image import Image
@@ -16,6 +17,10 @@ class Pipeline:
 
     @staticmethod
     def init(*, pipeline_config: PipelineConfig) -> Pipeline:
+
+        # Create path /debug if not exists
+        if not os.path.exists("debug"):
+            os.makedirs("debug")
         return Pipeline(pipeline_config)
 
     def step(self, module: Module, *, iterations: int = 1) -> Pipeline:
@@ -33,7 +38,12 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for _ in range(iterations):
-                output += (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                # Check if res is a tuple
+                if isinstance(res, tuple):
+                    output += res
+                else:
+                    output += (res,)
             return output
 
         self.functions.append(store_output_iter)
@@ -47,7 +57,12 @@ class Pipeline:
             else:
                 output = ()
                 for data in input_data:
-                    output += (Pipeline(config, pipeline.functions)._inject_image_data(data).run(),)
+                    res = Pipeline(config, pipeline.functions)._inject_image_data(data).run()
+                    # Check if res is a tuple
+                    if isinstance(res, tuple):
+                        output += res
+                    else:
+                        output += (res,)
             return output
 
         self.functions.append(store_output_for_each)
@@ -59,7 +74,12 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for pipeline in pipelines:
-                output += (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                # Check if res is a tuple
+                if isinstance(res, tuple):
+                    output += res
+                else:
+                    output += (res,)
             return output
 
         self.functions.append(store_output_para)

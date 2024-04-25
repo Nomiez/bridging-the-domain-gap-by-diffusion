@@ -7,14 +7,14 @@ from aldm import ALDM, ALDMConfig
 
 if __name__ == '__main__':
     # Init configs
-    pipeline_config = PipelineConfig(checkpoint_dir='data/checkpoints')
-    aldm_config = ALDMConfig(prompt='rainy scene',
+    pipeline_config = PipelineConfig()
+    aldm_config = ALDMConfig(prompt='snowy scene',
                              neg=False,
-                             output_dir='output',
                              num_samples=1,
                              ddim_steps=25,
                              cfg_scale=7.5,
                              seed=23,
+                             random_seed=True
                              )
 
     lffs_config = LFFSConfig(

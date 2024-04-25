@@ -161,9 +161,8 @@ cython_debug/
 
 
 # Ignore all input files 
-src/checkpoints/*.ckpt
-src/checkpoints/info/*.json
-src/input/*.png
-src/output/*.png
-src/pretrained/*.pth
+data/*
+pretrained/*
 
+# Allow git keep files in the whole directory
+!.gitkeep
