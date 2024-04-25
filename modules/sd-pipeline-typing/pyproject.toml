@@ -1,22 +1,24 @@
 [project]
-name = "bridging-the-domain-gap-by-diffusion"
+name = "sd-pipeline-typing"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
     {name = "Simon Okutan", email = "simon.okutan@tum.de"},
 ]
+
 dependencies = [
+    "pillow==10.3.0"
 ]
-requires-python = "==3.11.*"
+
+requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "-e file:///${PROJECT_ROOT}/modules/sd-pipeline#egg=sd-pipeline",
-    "-e file:///${PROJECT_ROOT}/modules/aldm#egg=aldm",
-]
