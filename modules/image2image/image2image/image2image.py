@@ -5,7 +5,6 @@ import torch
 from PIL import Image
 from pathlib import Path
 from diffusers import AutoPipelineForImage2Image, ControlNetModel
-from diffusers.utils import make_image_grid
 
 from sd_pipeline_typing.types import Module
 
@@ -25,48 +24,24 @@ class I2I(Module):
         control_img = input_data["segmentation"]
 
         controlnet = ControlNetModel.from_pretrained(
-            "lllyasviel/control_v11f1p_sd15_depth",
+            "lllyasviel/sd-controlnet-seg",
             torch_dtype=torch.float16,
-            variant="fp16", use_safetensors=True
         )
 
         pipeline = AutoPipelineForImage2Image.from_pretrained(
-            "stabilityai/stable-diffusion-xl-base-1.0",
+            "runwayml/stable-diffusion-v1-5",
             controlnet=controlnet,
             torch_dtype=torch.float16,
             variant="fp16",
             use_safetensors=True
         )
         pipeline.to("cuda")
-        # remove following line if xFormers is not installed or you have PyTorch 2.0 or higher installed
-        # pipeline.enable_xformers_memory_efficient_attention()
-
-        refiner = AutoPipelineForImage2Image.from_pretrained(
-            "stabilityai/stable-diffusion-xl-refiner-1.0",
-            text_encoder_2=pipeline.text_encoder_2,
-            vae=pipeline.vae,
-            torch_dtype=torch.float16,
-            use_safetensors=True,
-            variant="fp16",
-        )
-        refiner.to("cuda")
 
         # prepare image
-        prompt = "ultra realism, sharp, detailed, 8k"
+        prompt = self.config.prompt
 
         # pass prompt and image to pipeline
-        image_in_pipeline = pipeline(prompt, image=image, control_image=control_img, strength=0.1).images
-
-        # Define how many steps and what % of steps to be run on each experts (80/20) here
-        n_steps = 40
-        high_noise_frac = 0.8
-
-        image_in_pipeline = refiner(
-            prompt=prompt,
-            num_inference_steps=n_steps,
-            denoising_start=high_noise_frac,
-            image=image_in_pipeline,
-        ).images[0]
+        image_in_pipeline = pipeline(prompt, image=image, control_image=control_img, strength=0.2).images[0]
 
         output["name"] = img_name
         output["image"] = image_in_pipeline
@@ -78,18 +53,25 @@ class I2I(Module):
         def prepare(input_data: Tuple, _):
             image, segmentation = input_data
 
-            if segmentation[0]["name"].find(name_of_seg_contains) == -1:
-                segmentation, image = image, segmentation
+            if type(segmentation) is tuple:
+                if segmentation[0]["name"].find(name_of_seg_contains) == -1:
+                    segmentation, image = image, segmentation
 
-            if segmentation[0]["name"].find(name_of_seg_contains) == -1:
-                raise ValueError("Segmentation not found in the input data")
+                if segmentation[0]["name"].find(name_of_seg_contains) == -1:
+                    raise ValueError("Segmentation not found in the input data")
 
-            if len(image) == 1:
-                return {"image": image[0]["image"], "name": image[0]["name"], "segmentation": segmentation[0]["image"]}
-            else:
                 res = ()
                 for (img, seg) in zip(image, segmentation):
                     res += ({"image": img["image"], "name": img["name"], "segmentation": seg["image"]},)
                 return res
+            else:
+                if segmentation["name"].find(name_of_seg_contains) == -1:
+                    segmentation, image = image, segmentation
+
+                if segmentation["name"].find(name_of_seg_contains) == -1:
+                    raise ValueError("Segmentation not found in the input data")
+
+                return {"image": image["image"], "name": image["name"],
+                        "segmentation": segmentation["image"]}
 
         return prepare

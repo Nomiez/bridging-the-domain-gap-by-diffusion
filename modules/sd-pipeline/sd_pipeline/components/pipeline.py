@@ -7,7 +7,6 @@ from PIL.Image import Image
 
 from sd_pipeline_typing.types import PipelineConfig, Module
 
-
 class Pipeline:
 
     def __init__(self, pipeline_config: PipelineConfig | None = None,
@@ -85,6 +84,19 @@ class Pipeline:
 
         self.functions.append(store_output_para)
 
+        return self
+
+    def flatten(self, *, depth: int | str = "max") -> Pipeline:
+        def flatten_output(input_data: Tuple, _: PipelineConfig) -> Dict[str, str | Image]:
+            if depth == "max":
+                depth = len()
+            for _ in range(depth):
+                if isinstance(input_data, tuple):
+                    input_data = input_data[0]
+                else:
+                    break
+
+        self.functions.append(flatten_output)
         return self
 
     def prepare(self, prepare: Callable) -> Pipeline:
