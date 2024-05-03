@@ -1,0 +1,22 @@
+[project]
+name = "bridging-the-domain-gap-by-diffusion"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Simon Okutan", email = "simon.okutan@tum.de"},
+]
+dependencies = [
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e file:///${PROJECT_ROOT}/modules/sd-pipeline#egg=sd-pipeline",
+    "-e file:///${PROJECT_ROOT}/modules/aldm#egg=aldm",
+]
