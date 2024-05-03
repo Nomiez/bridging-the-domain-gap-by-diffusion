@@ -3,7 +3,10 @@ import os.path
 from sd_pipeline.components import Pipeline, PipelineConfig, SubPipeline
 from sd_pipeline.modules.load_from_fs import LFFS, LFFSConfig
 from sd_pipeline.modules.store_in_fs import SIFS, SIFSConfig
+from sd_pipeline.modules.rename import Rename, RenameConfig
+from sd_pipeline.modules.resize import Resize, ResizeConfig
 from aldm import ALDM, ALDMConfig
+from image2image import I2I, I2IConfig
 
 if __name__ == '__main__':
     # Init configs
@@ -27,12 +30,26 @@ if __name__ == '__main__':
 
     result = (
         Pipeline.init(pipeline_config=pipeline_config)
-        .step(LFFS(config=lffs_config))
-        .for_each(
-            SubPipeline.init().collect(
-                SubPipeline.init().step(ALDM(config=aldm_config)),
-                iterations=2
+        .parallel(
+            SubPipeline.init()
+            .step(LFFS(config=lffs_config))
+            .for_each(
+                SubPipeline.init().step(ALDM(config=aldm_config))
+            ),
+            SubPipeline.init()
+            .step(LFFS(config=lffs_config))
+            .for_each(
+                SubPipeline.init()
+                .step(Rename(config=RenameConfig(rename_function=lambda x: x + "_segmentation")))
             )
+            .for_each(
+                SubPipeline.init()
+                .step(Resize(config=ResizeConfig(W=1024, H=512)))
+            )
+        )
+        .prepare(I2I.format_stream(name_of_seg_contains="_segmentation"))
+        .for_each(
+            SubPipeline.init().step(I2I(config=I2IConfig(prompt="Test")))
         )
         .step(SIFS(config=sifs_config))
         .run()

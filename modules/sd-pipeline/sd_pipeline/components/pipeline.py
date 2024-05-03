@@ -38,7 +38,7 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for _ in range(iterations):
-                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -56,8 +56,9 @@ class Pipeline:
                 return Pipeline(config, pipeline.functions)._inject_image_data(input_data).run()
             else:
                 output = ()
+                
                 for data in input_data:
-                    res = Pipeline(config, pipeline.functions)._inject_image_data(data).run()
+                    res = Pipeline(config, pipeline.functions.copy())._inject_image_data(data).run()
                     # Check if res is a tuple
                     if isinstance(res, tuple):
                         output += res
@@ -74,7 +75,7 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for pipeline in pipelines:
-                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -84,6 +85,10 @@ class Pipeline:
 
         self.functions.append(store_output_para)
 
+        return self
+
+    def prepare(self, prepare: Callable) -> Pipeline:
+        self.functions.append(prepare)
         return self
 
     def run(self) -> Dict[str, str | Image]:

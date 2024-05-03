@@ -111,7 +111,7 @@ class ALDM(Module):
         prompt = config.prompt if not config.neg else ''
 
         # # Define the negative prompt here
-        n_prompt = config.prompt if config.neg else ''
+        n_prompt = "lowres,text,error,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username, blurry,artist name"
 
         num_samples = config.num_samples
         ddim_steps = config.ddim_steps
