@@ -1390,8 +1390,8 @@ files = [
 
 [[package]]
 name = "onnx-simplifier"
-version = "0.4.10"
-requires_python = ">=3.6"
+version = "0.4.36"
+requires_python = ">=3.7"
 summary = "Simplify your ONNX model"
 groups = ["dev"]
 dependencies = [
@@ -1399,7 +1399,10 @@ dependencies = [
     "rich",
 ]
 files = [
-    {file = "onnx-simplifier-0.4.10.tar.gz", hash = "sha256:297d7a1336ae40493a65454b775a7b4a3e07c035e7d31d8b7915521131a54361"},
+    {file = "onnx-simplifier-0.4.36.tar.gz", hash = "sha256:661b7383d0a6182b96489b60b36b30852fd4f6066cfbb298b20b2f5455167ff6"},
+    {file = "onnx_simplifier-0.4.36-cp311-cp311-macosx_10_15_universal2.whl", hash = "sha256:bed97c8fce059abdc6935e2c3f7b65ef43866269ef0049c7ec09a990ae578676"},
+    {file = "onnx_simplifier-0.4.36-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b5d1c1f170fd9c07aa475d539e9e752aec352502aeaad7d5004fde7ffad2ca39"},
+    {file = "onnx_simplifier-0.4.36-cp311-cp311-win_amd64.whl", hash = "sha256:02a1a7d8573e9ef1c76cf9cad99a95d8dd508941518d0e00c00ef180f53783b4"},
 ]
 
 [[package]]
@@ -2229,13 +2232,13 @@ files = [
 
 [[package]]
 name = "setuptools"
-version = "69.5.1"
-requires_python = ">=3.8"
+version = "65.7.0"
+requires_python = ">=3.7"
 summary = "Easily download, build, install, upgrade, and uninstall Python packages"
 groups = ["default", "dev"]
 files = [
-    {file = "setuptools-69.5.1-py3-none-any.whl", hash = "sha256:c636ac361bc47580504644275c9ad802c50415c7522212252c033bd15f301f32"},
-    {file = "setuptools-69.5.1.tar.gz", hash = "sha256:6c1fccdac05a97e598fb0ae3bbed5904ccb317337a51139dcd51453611bbb987"},
+    {file = "setuptools-65.7.0-py3-none-any.whl", hash = "sha256:8ab4f1dbf2b4a65f7eec5ad0c620e84c34111a68d3349833494b9088212214dd"},
+    {file = "setuptools-65.7.0.tar.gz", hash = "sha256:4d3c92fac8f1118bb77a22181355e29c239cabfe2b9effdaa665c66b711136d7"},
 ]
 
 [[package]]
@@ -2952,7 +2955,7 @@ files = [
 [[package]]
 name = "yolox-x"
 version = "0.1.0"
-requires_python = ">=3.9"
+requires_python = ">=3.6"
 editable = true
 path = "./modules/yolox-x"
 summary = "Object detection with YOLOX."
@@ -2961,7 +2964,7 @@ dependencies = [
     "loguru",
     "ninja",
     "numpy",
-    "onnx-simplifier==0.4.10",
+    "onnx-simplifier>=0.4.10",
     "onnx>=1.13.0",
     "opencv-python",
     "psutil",
