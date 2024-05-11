@@ -7,7 +7,6 @@ from PIL.Image import Image
 
 from sd_pipeline_typing.types import PipelineConfig, Module
 
-
 class Pipeline:
 
     def __init__(self, pipeline_config: PipelineConfig | None = None,
@@ -38,7 +37,7 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for _ in range(iterations):
-                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -56,8 +55,9 @@ class Pipeline:
                 return Pipeline(config, pipeline.functions)._inject_image_data(input_data).run()
             else:
                 output = ()
+                
                 for data in input_data:
-                    res = Pipeline(config, pipeline.functions)._inject_image_data(data).run()
+                    res = Pipeline(config, pipeline.functions.copy())._inject_image_data(data).run()
                     # Check if res is a tuple
                     if isinstance(res, tuple):
                         output += res
@@ -74,7 +74,7 @@ class Pipeline:
                               config: PipelineConfig) -> Tuple:
             output = ()
             for pipeline in pipelines:
-                res = (Pipeline(config, pipeline.functions)._inject_image_data(input_data).run(),)
+                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -84,6 +84,36 @@ class Pipeline:
 
         self.functions.append(store_output_para)
 
+        return self
+
+    def flatten(self, *, depth: int | str = "max") -> Pipeline:
+        def flatten_output(input_data: Tuple, _: PipelineConfig) -> Tuple[Dict[str, str | Image]]:
+            if depth == "max":
+                while isinstance(input_data, tuple):
+                    new_input_data = ()
+                    for item in input_data:
+                        if isinstance(item, tuple):
+                            new_input_data += item
+                        else:
+                            new_input_data += (item,)
+                    input_data = new_input_data
+            else:
+                for _ in range(depth):
+                    new_input_data = ()
+                    for item in input_data:
+                        if isinstance(item, tuple):
+                            new_input_data += item
+                        else:
+                            new_input_data += (item,)
+                    input_data = new_input_data
+
+            return input_data
+
+        self.functions.append(flatten_output)
+        return self
+
+    def prepare(self, prepare: Callable) -> Pipeline:
+        self.functions.append(prepare)
         return self
 
     def run(self) -> Dict[str, str | Image]:

@@ -159,6 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Ignore pdm files
+.pdm-python
 
 # Ignore all input files 
 data/*
@@ -166,3 +168,5 @@ pretrained/*
 
 # Allow git keep files in the whole directory
 !.gitkeep
+.idea
+debug
