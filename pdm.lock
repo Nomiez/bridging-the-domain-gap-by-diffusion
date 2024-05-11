@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:6ed490813112ce826de2bcdfb5fac983d81afeeee257ca2868e8db7e2e855893"
+content_hash = "sha256:04d5e1f9f28c03f556045c23439a259b98c2bf5d77034467a236eea5f8dc52f3"
 
 [[package]]
 name = "absl-py"
@@ -2628,6 +2628,21 @@ groups = ["default", "dev"]
 files = [
     {file = "uc-micro-py-1.0.3.tar.gz", hash = "sha256:d321b92cff673ec58027c04015fcaa8bb1e005478643ff4a500882eaab88c48a"},
     {file = "uc_micro_py-1.0.3-py3-none-any.whl", hash = "sha256:db1dffff340817673d7b466ec86114a9dc0e9d4d9b5ba229d9d60e5c12600cd5"},
+]
+
+[[package]]
+name = "upscale-downscale-details-enhancer"
+version = "0.1.0"
+requires_python = ">=3.11"
+editable = true
+path = "./modules/upscale-downscale-details-enhancer"
+summary = "Default template for PDM package"
+groups = ["default", "dev"]
+dependencies = [
+    "accelerate>=0.17.0",
+    "diffusers>=0.27",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
+    "torch",
 ]
 
 [[package]]
