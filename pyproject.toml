@@ -11,6 +11,7 @@ dependencies = [
     "sd-pipeline @ file:///${PROJECT_ROOT}/modules/sd-pipeline",
     "image2image @ file:///${PROJECT_ROOT}/modules/image2image",
     "aldm @ file:///${PROJECT_ROOT}/modules/aldm",
+    "torch>=2.2.2",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
@@ -25,4 +26,5 @@ dev = [
     "-e file:///${PROJECT_ROOT}/modules/aldm#egg=aldm",
     "-e file:///${PROJECT_ROOT}/modules/image2image#egg=image2image",
     "-e file:///${PROJECT_ROOT}/modules/sd-pipeline#egg=sd-pipeline",
+    "-e file:///${PROJECT_ROOT}/modules/yolox-x#egg=yolox-x",
 ]

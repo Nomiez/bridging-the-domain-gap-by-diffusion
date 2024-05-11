@@ -1,0 +1,37 @@
+[project]
+name = "yolox-x"
+version = "0.1.0"
+description = "Object detection with YOLOX."
+authors = [
+    {name = "Simon Okutan", email = "simon.okutan@tum.de"},
+]
+
+dependencies = [
+    "numpy",
+    "torch>=1.7",
+    "opencv_python",
+    "loguru",
+    "tqdm",
+    "torchvision",
+    "thop",
+    "ninja",
+    "tabulate",
+    "psutil",
+    "tensorboard",
+    "pycocotools>=2.0.2",
+    "onnx>=1.13.0",
+    "onnx-simplifier==0.4.10",
+]
+
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
