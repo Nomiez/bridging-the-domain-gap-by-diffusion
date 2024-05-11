@@ -87,14 +87,27 @@ class Pipeline:
         return self
 
     def flatten(self, *, depth: int | str = "max") -> Pipeline:
-        def flatten_output(input_data: Tuple, _: PipelineConfig) -> Dict[str, str | Image]:
+        def flatten_output(input_data: Tuple, _: PipelineConfig) -> Tuple[Dict[str, str | Image]]:
             if depth == "max":
-                depth = len()
-            for _ in range(depth):
-                if isinstance(input_data, tuple):
-                    input_data = input_data[0]
-                else:
-                    break
+                while isinstance(input_data, tuple):
+                    new_input_data = ()
+                    for item in input_data:
+                        if isinstance(item, tuple):
+                            new_input_data += item
+                        else:
+                            new_input_data += (item,)
+                    input_data = new_input_data
+            else:
+                for _ in range(depth):
+                    new_input_data = ()
+                    for item in input_data:
+                        if isinstance(item, tuple):
+                            new_input_data += item
+                        else:
+                            new_input_data += (item,)
+                    input_data = new_input_data
+
+            return input_data
 
         self.functions.append(flatten_output)
         return self

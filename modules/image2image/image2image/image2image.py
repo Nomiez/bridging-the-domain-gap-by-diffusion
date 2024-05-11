@@ -41,7 +41,12 @@ class I2I(Module):
         prompt = self.config.prompt
 
         # pass prompt and image to pipeline
-        image_in_pipeline = pipeline(prompt, image=image, control_image=control_img, strength=0.2).images[0]
+        image_in_pipeline = pipeline(
+            prompt,
+            image=image,
+            control_image=control_img,
+            strength=self.config.strength
+        ).images[0]
 
         output["name"] = img_name
         output["image"] = image_in_pipeline
