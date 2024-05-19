@@ -15,9 +15,7 @@ class Resize(Module):
 
     def run(self, input_data: Dict[str, str | Image], _) -> Dict[str, str | Image]:
 
-        img = input_data["image"]
-        img.resize((self.config.W, self.config.H), PIL.Image.NEAREST)
-        input_data["image"] = img
+        input_data["image"] = input_data["image"].resize((self.config.W, self.config.H), PIL.Image.NEAREST)
 
         return input_data
 

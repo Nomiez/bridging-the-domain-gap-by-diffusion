@@ -86,10 +86,48 @@ class Pipeline:
 
         return self
 
-    def flatten(self, *, depth: int | str = "max") -> Pipeline:
+    def split(self, *pipelines: Pipeline, split_array: list[float] | list[int], type: str | None = "abs") -> Pipeline:
+        if len(pipelines) != len(split_array):
+            raise RuntimeError("Each Subpipeline needs to have a split.")
+        if type == "pct" and sum(split_array) != 1:
+            raise RuntimeError("Sum of each split must add up to 100%.")
+
+        def store_output_para(input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
+                              config: PipelineConfig) -> Tuple:
+            output = ()
+            for pipeline in pipelines:
+                if isinstance(input_data, dict):
+                    input_data = (input_data, )
+                if type == "abs" and sum(split_array) > len(input_data):
+                    raise RuntimeError("Absolute number of splitts cannot be greater then the number of data")
+
+                processed = 0
+                for pipeline, share in zip(pipelines, split_array):
+                    res = ()
+                    if type == "abs":
+                        res += (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data[processed:(processed + share)]).run(),)
+                        processed += share
+                    else:
+                        res += (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data[processed:[processed + int(share * input_data)]]).run(),)
+                        processed += int(share * input_data)
+                    # Check if res is a tuple
+                    if isinstance(res, tuple):
+                        output += res
+                    else:
+                        output += (res,)
+            return output
+
+        self.functions.append(store_output_para)
+
+        return self
+
+
+
+
+    def flatten(self, *, depth: int | str | None = "max") -> Pipeline:
         def flatten_output(input_data: Tuple, _: PipelineConfig) -> Tuple[Dict[str, str | Image]]:
             if depth == "max":
-                while isinstance(input_data, tuple):
+                while isinstance(input_data[0], tuple):
                     new_input_data = ()
                     for item in input_data:
                         if isinstance(item, tuple):
