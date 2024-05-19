@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:742ed87d781102cb7fcb0c288b9ea565a2017bf884ac20bc35d74aabbbe83d3f"
+content_hash = "sha256:27c13fa18f5721e78e3c641b506be57cceff869ba7ec5ed29014775a1641add1"
 
 [[package]]
 name = "absl-py"
@@ -381,6 +381,19 @@ files = [
 ]
 
 [[package]]
+name = "convert2coco"
+version = "0.1.0"
+requires_python = ">=3.11"
+editable = true
+path = "./modules/convert2coco"
+summary = "Default template for PDM package"
+groups = ["default", "dev"]
+dependencies = [
+    "sahi>=0.11.15",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
+]
+
+[[package]]
 name = "cycler"
 version = "0.12.1"
 requires_python = ">=3.8"
@@ -456,6 +469,19 @@ groups = ["default", "dev"]
 files = [
     {file = "filelock-3.13.4-py3-none-any.whl", hash = "sha256:404e5e9253aa60ad457cae1be07c0f0ca90a63931200a47d9b6a6af84fd7b45f"},
     {file = "filelock-3.13.4.tar.gz", hash = "sha256:d13f466618bfde72bd2c18255e269f72542c6e70e7bac83a0232d6b1cc5c8cf4"},
+]
+
+[[package]]
+name = "fire"
+version = "0.6.0"
+summary = "A library for automatically generating command line interfaces."
+groups = ["default", "dev"]
+dependencies = [
+    "six",
+    "termcolor",
+]
+files = [
+    {file = "fire-0.6.0.tar.gz", hash = "sha256:54ec5b996ecdd3c0309c800324a0703d6da512241bc73b553db959d98de0aa66"},
 ]
 
 [[package]]
@@ -1648,6 +1674,20 @@ files = [
 ]
 
 [[package]]
+name = "pybboxes"
+version = "0.1.6"
+requires_python = ">=3.7"
+summary = "Light Weight Toolkit for Bounding Boxes"
+groups = ["default", "dev"]
+dependencies = [
+    "numpy",
+]
+files = [
+    {file = "pybboxes-0.1.6-py3-none-any.whl", hash = "sha256:e6f7ca43a38bfe2c6ec5b67c6f6e95790e5d9c8c41d84ef11ba896fe181816d5"},
+    {file = "pybboxes-0.1.6.tar.gz", hash = "sha256:558bfd2a7ca37def07ac95108f3b6504d728332b0c5b871df1017de5c7c1f68d"},
+]
+
+[[package]]
 name = "pycocotools"
 version = "2.0.7"
 requires_python = ">=3.5"
@@ -2130,6 +2170,29 @@ files = [
 ]
 
 [[package]]
+name = "sahi"
+version = "0.11.15"
+requires_python = ">=3.6"
+summary = "A vision library for performing sliced inference on large images/small objects"
+groups = ["default", "dev"]
+dependencies = [
+    "click",
+    "fire",
+    "opencv-python<=4.8",
+    "pillow>=8.2.0",
+    "pybboxes==0.1.6",
+    "pyyaml",
+    "requests",
+    "shapely>=1.8.0",
+    "terminaltables",
+    "tqdm>=4.48.2",
+]
+files = [
+    {file = "sahi-0.11.15-py3-none-any.whl", hash = "sha256:27a0e9228589342f97d95779a920b5d1f085067fdcb5fa3c647a07b374cda9c3"},
+    {file = "sahi-0.11.15.tar.gz", hash = "sha256:ab55b570bee991fe0e873305be0080611530d8cf219a51a91e19132d61770322"},
+]
+
+[[package]]
 name = "scikit-image"
 version = "0.20.0"
 requires_python = ">=3.8"
@@ -2239,6 +2302,26 @@ groups = ["default", "dev"]
 files = [
     {file = "setuptools-65.7.0-py3-none-any.whl", hash = "sha256:8ab4f1dbf2b4a65f7eec5ad0c620e84c34111a68d3349833494b9088212214dd"},
     {file = "setuptools-65.7.0.tar.gz", hash = "sha256:4d3c92fac8f1118bb77a22181355e29c239cabfe2b9effdaa665c66b711136d7"},
+]
+
+[[package]]
+name = "shapely"
+version = "2.0.4"
+requires_python = ">=3.7"
+summary = "Manipulation and analysis of geometric objects"
+groups = ["default", "dev"]
+dependencies = [
+    "numpy<3,>=1.14",
+]
+files = [
+    {file = "shapely-2.0.4-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:de0205cb21ad5ddaef607cda9a3191eadd1e7a62a756ea3a356369675230ac35"},
+    {file = "shapely-2.0.4-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:7d56ce3e2a6a556b59a288771cf9d091470116867e578bebced8bfc4147fbfd7"},
+    {file = "shapely-2.0.4-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:58b0ecc505bbe49a99551eea3f2e8a9b3b24b3edd2a4de1ac0dc17bc75c9ec07"},
+    {file = "shapely-2.0.4-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:790a168a808bd00ee42786b8ba883307c0e3684ebb292e0e20009588c426da47"},
+    {file = "shapely-2.0.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4310b5494271e18580d61022c0857eb85d30510d88606fa3b8314790df7f367d"},
+    {file = "shapely-2.0.4-cp311-cp311-win32.whl", hash = "sha256:63f3a80daf4f867bd80f5c97fbe03314348ac1b3b70fb1c0ad255a69e3749879"},
+    {file = "shapely-2.0.4-cp311-cp311-win_amd64.whl", hash = "sha256:c52ed79f683f721b69a10fb9e3d940a468203f5054927215586c5d49a072de8d"},
+    {file = "shapely-2.0.4.tar.gz", hash = "sha256:5dc736127fac70009b8d309a0eeb74f3e08979e530cf7017f2f507ef62e6cfb8"},
 ]
 
 [[package]]
@@ -2418,6 +2501,28 @@ files = [
     {file = "tensorboard_data_server-0.7.2-py3-none-any.whl", hash = "sha256:7e0610d205889588983836ec05dc098e80f97b7e7bbff7e994ebb78f578d0ddb"},
     {file = "tensorboard_data_server-0.7.2-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:9fe5d24221b29625dbc7328b0436ca7fc1c23de4acf4d272f1180856e32f9f60"},
     {file = "tensorboard_data_server-0.7.2-py3-none-manylinux_2_31_x86_64.whl", hash = "sha256:ef687163c24185ae9754ed5650eb5bc4d84ff257aabdc33f0cc6f74d8ba54530"},
+]
+
+[[package]]
+name = "termcolor"
+version = "2.4.0"
+requires_python = ">=3.8"
+summary = "ANSI color formatting for output in terminal"
+groups = ["default", "dev"]
+files = [
+    {file = "termcolor-2.4.0-py3-none-any.whl", hash = "sha256:9297c0df9c99445c2412e832e882a7884038a25617c60cea2ad69488d4040d63"},
+    {file = "termcolor-2.4.0.tar.gz", hash = "sha256:aab9e56047c8ac41ed798fa36d892a37aca6b3e9159f3e0c24bc64a9b3ac7b7a"},
+]
+
+[[package]]
+name = "terminaltables"
+version = "3.1.10"
+requires_python = ">=2.6"
+summary = "Generate simple tables in terminals from a nested list of strings."
+groups = ["default", "dev"]
+files = [
+    {file = "terminaltables-3.1.10-py2.py3-none-any.whl", hash = "sha256:e4fdc4179c9e4aab5f674d80f09d76fa436b96fdc698a8505e0a36bf0804a874"},
+    {file = "terminaltables-3.1.10.tar.gz", hash = "sha256:ba6eca5cb5ba02bba4c9f4f985af80c54ec3dccf94cfcd190154386255e47543"},
 ]
 
 [[package]]
