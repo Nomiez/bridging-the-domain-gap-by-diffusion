@@ -1,22 +1,22 @@
 from __future__ import annotations
 
 import os
-from typing import Dict, Tuple, Callable, Optional
+from typing import Dict, Tuple, Callable
 
 from PIL.Image import Image
 
 from sd_pipeline_typing.types import PipelineConfig, Module
 
-class Pipeline:
 
-    def __init__(self, pipeline_config: PipelineConfig | None = None,
-                 functions: list[Callable] = None):
+class Pipeline:
+    def __init__(
+        self, pipeline_config: PipelineConfig | None = None, functions: list[Callable] = None
+    ):
         self.config = pipeline_config
         self.functions = functions or []
 
     @staticmethod
     def init(*, pipeline_config: PipelineConfig) -> Pipeline:
-
         # Create path /debug if not exists
         if not os.path.exists("debug"):
             os.makedirs("debug")
@@ -33,11 +33,17 @@ class Pipeline:
         return self
 
     def collect(self, pipeline: Pipeline, *, iterations: int) -> Pipeline:
-        def store_output_iter(input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
-                              config: PipelineConfig) -> Tuple:
+        def store_output_iter(
+            input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
+            config: PipelineConfig,
+        ) -> Tuple:
             output = ()
             for _ in range(iterations):
-                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
+                res = (
+                    Pipeline(config, pipeline.functions.copy())
+                    ._inject_image_data(input_data)
+                    .run(),
+                )
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -49,13 +55,15 @@ class Pipeline:
         return self
 
     def for_each(self, pipeline: Pipeline) -> Pipeline:
-        def store_output_for_each(input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
-                                  config: PipelineConfig) -> Dict[str, str | Image] | Tuple:
+        def store_output_for_each(
+            input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
+            config: PipelineConfig,
+        ) -> Dict[str, str | Image] | Tuple:
             if isinstance(input_data, dict):
                 return Pipeline(config, pipeline.functions)._inject_image_data(input_data).run()
             else:
                 output = ()
-                
+
                 for data in input_data:
                     res = Pipeline(config, pipeline.functions.copy())._inject_image_data(data).run()
                     # Check if res is a tuple
@@ -70,11 +78,17 @@ class Pipeline:
         return self
 
     def parallel(self, *pipelines: Pipeline) -> Pipeline:
-        def store_output_para(input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
-                              config: PipelineConfig) -> Tuple:
+        def store_output_para(
+            input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]],
+            config: PipelineConfig,
+        ) -> Tuple:
             output = ()
             for pipeline in pipelines:
-                res = (Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run(),)
+                res = (
+                    Pipeline(config, pipeline.functions.copy())
+                    ._inject_image_data(input_data)
+                    .run(),
+                )
                 # Check if res is a tuple
                 if isinstance(res, tuple):
                     output += res
@@ -122,7 +136,9 @@ class Pipeline:
             input_data = function(input_data, self.config)
         return input_data
 
-    def _inject_image_data(self, input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]]) -> Pipeline:
+    def _inject_image_data(
+        self, input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]]
+    ) -> Pipeline:
         def load_image_data(_: None, __: PipelineConfig) -> Dict | Tuple:
             return input_data
 

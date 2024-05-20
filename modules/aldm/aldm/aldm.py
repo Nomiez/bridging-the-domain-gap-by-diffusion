@@ -5,7 +5,6 @@ from PIL import Image
 import PIL
 import numpy as np
 import torch
-import random
 
 from einops import rearrange
 from pytorch_lightning import seed_everything
@@ -25,7 +24,7 @@ label_color_map = CityscapesBaseInfo().create_label_colormap()
 
 
 def convert_labels(label, labels_info):
-    lb_map = {el['id']: el['trainId'] for el in labels_info}
+    lb_map = {el["id"]: el["trainId"] for el in labels_info}
     for k, v in lb_map.items():
         label[label == k] = v
     return label
@@ -74,7 +73,9 @@ class ALDM(Module):
         if self.config.random_seed and rand.seed is not None:
             rand.seed(self.config.seed)
 
-    def run(self, input_data: dict[str, str | Image.Image], pipeline_config) -> dict[str, str | Image.Image]:
+    def run(
+        self, input_data: dict[str, str | Image.Image], pipeline_config
+    ) -> dict[str, str | Image.Image]:
         config = self.config
         output = {}
 
@@ -82,20 +83,22 @@ class ALDM(Module):
             config.seed = rand.randint(0, 1000000)
 
         image = input_data["image"]
-        img_name = Path(input_data["name"]).stem + f"_{config.seed}" + Path(input_data["name"]).suffix
+        img_name = (
+            Path(input_data["name"]).stem + f"_{config.seed}" + Path(input_data["name"]).suffix
+        )
 
-        model_path = f'data/models/{config.model}'
+        model_path = f"data/models/{config.model}"
         model_config = os.path.join(model_path, f"cldm_seg_{config.model}_multi_step_D.yaml")
         model_checkpoint = os.path.join(model_path, f"{config.model}_step9.ckpt")
 
         segmenter_config = None
         model = create_model(model_config, extra_segmenter_config=segmenter_config).cpu()
 
-        model.load_state_dict(load_state_dict(model_checkpoint, location='cpu'), strict=False)
+        model.load_state_dict(load_state_dict(model_checkpoint, location="cpu"), strict=False)
         model = model.cuda()
         ddim_sampler = DDIMSampler(model)
 
-        if hasattr(model, 'model_attend'):
+        if hasattr(model, "model_attend"):
             model.model_attend.image_ratio = W / H
             model.model_attend.attention_store.image_ratio = W / H
 
@@ -108,7 +111,7 @@ class ALDM(Module):
         control_cond = convert_id_to_control(label_id, model)  # (768, 128, 256)
 
         # Define the prompt here
-        prompt = config.prompt if not config.neg else ''
+        prompt = config.prompt if not config.neg else ""
 
         # # Define the negative prompt here
         n_prompt = "lowres,text,error,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username, blurry,artist name"
@@ -121,22 +124,35 @@ class ALDM(Module):
         control = torch.stack([control_cond for _ in range(num_samples)], dim=0)
         control = control.clone().cuda()
 
-        cond = {"c_concat": [control],
-                "c_crossattn": [model.get_learned_conditioning([prompt] * num_samples)]}
-        un_cond = {"c_concat": [control],
-                   "c_crossattn": [model.get_learned_conditioning([n_prompt] * num_samples)]}
+        cond = {
+            "c_concat": [control],
+            "c_crossattn": [model.get_learned_conditioning([prompt] * num_samples)],
+        }
+        un_cond = {
+            "c_concat": [control],
+            "c_crossattn": [model.get_learned_conditioning([n_prompt] * num_samples)],
+        }
         shape = (4, H // 8, W // 8)
         seed_everything(seed)
         samples, intermediates = ddim_sampler.sample(
-            ddim_steps, num_samples,
-            shape, cond, verbose=False, eta=0.0,
+            ddim_steps,
+            num_samples,
+            shape,
+            cond,
+            verbose=False,
+            eta=0.0,
             unconditional_guidance_scale=cfg_scale,
-            unconditional_conditioning=un_cond
+            unconditional_conditioning=un_cond,
         )
 
         x_samples = model.decode_first_stage(samples)
-        x_samples = (rearrange(x_samples, 'b c h w -> b h w c') * 127.5 + 127.5).cpu().numpy().clip(0, 255).astype(
-            np.uint8)
+        x_samples = (
+            (rearrange(x_samples, "b c h w -> b h w c") * 127.5 + 127.5)
+            .cpu()
+            .numpy()
+            .clip(0, 255)
+            .astype(np.uint8)
+        )
 
         for sample in x_samples:
             sample_pil = Image.fromarray(sample)

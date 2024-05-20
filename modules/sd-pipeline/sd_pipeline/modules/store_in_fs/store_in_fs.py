@@ -12,9 +12,9 @@ class SIFS(Module):
     def __init__(self, *, config: SIFSConfig):
         self.config = config
 
-    def run(self, input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]], _) -> Dict[str, str | Image] | \
-                                                                                            Tuple[
-                                                                                                Dict[str, str | Image]]:
+    def run(
+        self, input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]], _
+    ) -> Dict[str, str | Image] | Tuple[Dict[str, str | Image]]:
         # Stores images in the file system
 
         def save_image(image: Image, name: str) -> str:
