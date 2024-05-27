@@ -36,14 +36,29 @@ class SIFS(Module):
 
         if isinstance(input_data, dict):
             name = input_data["name"]
+            if not isinstance(name, str):
+                raise ValueError("Name must be a string")
             image = input_data["image"]
+            if not isinstance(image, Image):
+                raise ValueError("Image must be a PIL.Image.Image")
             name = save_image(image, name)
             res = {"name": name, "image": image}
+            return res  # type: ignore
         else:
-            res = ()
+            result: tuple[()] | Tuple[Dict[str, str | Image]] = ()
+
             for data in input_data:
                 name = data["name"]
+                if not isinstance(name, str):
+                    raise ValueError("Name must be a string")
                 image = data["image"]
+                if not isinstance(image, Image):
+                    raise ValueError("Image must be a PIL.Image.Image")
                 name = save_image(image, name)
-                res += ({"name": name, "image": image},)
-        return res
+                result += ({"name": name, "image": image},)  # type: ignore
+
+            if isinstance(result, tuple) and len(result) == 0:
+                raise ValueError("No images were found in the input data")
+            else:
+                assert isinstance(result, tuple)
+                return result

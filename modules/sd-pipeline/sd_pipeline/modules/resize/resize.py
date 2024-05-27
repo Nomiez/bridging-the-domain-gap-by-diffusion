@@ -15,7 +15,11 @@ class Resize(Module):
 
     def run(self, input_data: Dict[str, str | Image], _) -> Dict[str, str | Image]:
         img = input_data["image"]
-        img.resize((self.config.W, self.config.H), PIL.Image.NEAREST)
+
+        if not isinstance(img, PIL.Image.Image):
+            raise ValueError("Image is not a PIL Image object")
+
+        img.resize((self.config.W, self.config.H), PIL.Image.NEAREST)  # type: ignore
         input_data["image"] = img
 
         return input_data

@@ -84,7 +84,7 @@ class ALDM(Module):
 
         image = input_data["image"]
         img_name = (
-            Path(input_data["name"]).stem + f"_{config.seed}" + Path(input_data["name"]).suffix
+            Path(input_data["name"]).stem + f"_{config.seed}" + Path(input_data["name"]).suffix  # type: ignore
         )
 
         model_path = f"data/models/{config.model}"
@@ -101,6 +101,12 @@ class ALDM(Module):
         if hasattr(model, "model_attend"):
             model.model_attend.image_ratio = W / H
             model.model_attend.attention_store.image_ratio = W / H
+
+        if not isinstance(image, Image.Image):
+            raise ValueError("Input image is not of type Image.Image")
+
+        if not isinstance(img_name, str):
+            raise ValueError("Input image name is not of type str")
 
         label = map_color_to_trainId(image, img_name, label_color_map, W, H)
 
@@ -154,6 +160,7 @@ class ALDM(Module):
             .astype(np.uint8)
         )
 
+        sample_pil = Image.new("RGB", (H, W), (255, 255, 255))
         for sample in x_samples:
             sample_pil = Image.fromarray(sample)
 

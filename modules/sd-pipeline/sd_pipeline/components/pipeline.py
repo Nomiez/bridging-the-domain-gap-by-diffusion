@@ -10,7 +10,7 @@ from sd_pipeline_typing.types import PipelineConfig, Module
 
 class Pipeline:
     def __init__(
-        self, pipeline_config: PipelineConfig | None = None, functions: list[Callable] = None
+        self, pipeline_config: PipelineConfig | None = None, functions: list[Callable] | None = None
     ):
         self.config = pipeline_config
         self.functions = functions or []
@@ -112,6 +112,8 @@ class Pipeline:
                             new_input_data += (item,)
                     input_data = new_input_data
             else:
+                if not isinstance(depth, int):
+                    raise ValueError("Depth must be an integer or 'max'")
                 for _ in range(depth):
                     new_input_data = ()
                     for item in input_data:
@@ -121,7 +123,10 @@ class Pipeline:
                             new_input_data += (item,)
                     input_data = new_input_data
 
-            return input_data
+            if not isinstance(input_data, tuple):
+                raise ValueError("Output data is not a tuple")
+
+            return input_data  # type: ignore
 
         self.functions.append(flatten_output)
         return self
@@ -134,7 +139,11 @@ class Pipeline:
         input_data = None
         for function in self.functions:
             input_data = function(input_data, self.config)
-        return input_data
+
+        if input_data is None:
+            raise ValueError("No input data was provided")
+
+        return input_data  # type: ignore
 
     def _inject_image_data(
         self, input_data: Dict[str, str | Image] | Tuple[Dict[str, str | Image]]

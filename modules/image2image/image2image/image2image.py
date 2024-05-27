@@ -21,7 +21,7 @@ class I2I(Module):
         output = {}
 
         image = input_data["image"]
-        img_name = Path(input_data["name"]).stem + "_image2image" + Path(input_data["name"]).suffix
+        img_name = Path(input_data["name"]).stem + "_image2image" + Path(input_data["name"]).suffix  # type: ignore
         control_img = input_data["segmentation"]
 
         controlnet = ControlNetModel.from_pretrained(

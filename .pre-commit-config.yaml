@@ -1,10 +1,12 @@
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
   rev: v0.4.4
   hooks:
-    # Run the linter.
     - id: ruff
       args: [ --fix ]
-    # Run the formatter.
     - id: ruff-format
+# https://stackoverflow.com/questions/71657355/run-mypy-from-pre-commit-for-different-directories
+- repo: https://github.com/RobertCraigie/pyright-python
+  rev: v1.1.364
+  hooks:
+    - id: pyright
