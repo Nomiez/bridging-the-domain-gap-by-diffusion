@@ -8,6 +8,7 @@ authors = [
 dependencies = [
     "pillow==10.3.0",
     "torch>=2.2.2",
+    "setuptools==65.7.0",
     "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
     "sd-pipeline @ file:///${PROJECT_ROOT}/modules/sd-pipeline",
     "image2image @ file:///${PROJECT_ROOT}/modules/image2image",
@@ -31,7 +32,7 @@ dev = [
     "-e file:///${PROJECT_ROOT}/modules/image2image#egg=image2image",
     "-e file:///${PROJECT_ROOT}/modules/sd-pipeline#egg=sd-pipeline",
     "-e file:///${PROJECT_ROOT}/modules/convert2coco#egg=convert2coco",
-    "-e file:///${PROJECT_ROOT}/modules/yolox-x#egg=yolox-x",
+    "-e file:///${PROJECT_ROOT}/modules/yolox-module#egg=yolox-module",
 ]
 lint = [
     "pre-commit>=3.7.1",
