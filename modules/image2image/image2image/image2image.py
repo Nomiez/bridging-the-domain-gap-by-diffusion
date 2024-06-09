@@ -15,12 +15,13 @@ class I2I(Module):
     def __init__(self, *, config: I2IConfig):
         self.config = config
 
-    def run(self, input_data: dict[str, str | Image.Image], pipeline_config) -> dict[str, str | Image.Image]:
-
+    def run(
+        self, input_data: dict[str, str | Image.Image], pipeline_config
+    ) -> dict[str, str | Image.Image]:
         output = {}
 
         image = input_data["image"]
-        img_name = Path(input_data["name"]).stem + f"_image2image" + Path(input_data["name"]).suffix
+        img_name = Path(input_data["name"]).stem + "_image2image" + Path(input_data["name"]).suffix  # type: ignore
         control_img = input_data["segmentation"]
 
         controlnet = ControlNetModel.from_pretrained(
@@ -33,7 +34,7 @@ class I2I(Module):
             controlnet=controlnet,
             torch_dtype=torch.float16,
             variant="fp16",
-            use_safetensors=True
+            use_safetensors=True,
         )
         pipeline.to("cuda")
 
@@ -42,10 +43,7 @@ class I2I(Module):
 
         # pass prompt and image to pipeline
         image_in_pipeline = pipeline(
-            prompt,
-            image=image,
-            control_image=control_img,
-            strength=self.config.strength
+            prompt, image=image, control_image=control_img, strength=self.config.strength
         ).images[0]
 
         output["name"] = img_name
@@ -66,8 +64,10 @@ class I2I(Module):
                     raise ValueError("Segmentation not found in the input data")
 
                 res = ()
-                for (img, seg) in zip(image, segmentation):
-                    res += ({"image": img["image"], "name": img["name"], "segmentation": seg["image"]},)
+                for img, seg in zip(image, segmentation):
+                    res += (
+                        {"image": img["image"], "name": img["name"], "segmentation": seg["image"]},
+                    )
                 return res
             else:
                 if segmentation["name"].find(name_of_seg_contains) == -1:
@@ -76,7 +76,10 @@ class I2I(Module):
                 if segmentation["name"].find(name_of_seg_contains) == -1:
                     raise ValueError("Segmentation not found in the input data")
 
-                return {"image": image["image"], "name": image["name"],
-                        "segmentation": segmentation["image"]}
+                return {
+                    "image": image["image"],
+                    "name": image["name"],
+                    "segmentation": segmentation["image"],
+                }
 
         return prepare
