@@ -14,6 +14,7 @@ dependencies = [
     "image2image @ file:///${PROJECT_ROOT}/modules/image2image",
     "aldm @ file:///${PROJECT_ROOT}/modules/aldm",
     "convert2coco @ file:///${PROJECT_ROOT}/modules/convert2coco",
+    "upscale-downscale-details-enhancer @ file:///${PROJECT_ROOT}/modules/upscale-downscale-details-enhancer",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
@@ -31,6 +32,7 @@ dev = [
     "-e file:///${PROJECT_ROOT}/modules/aldm#egg=aldm",
     "-e file:///${PROJECT_ROOT}/modules/image2image#egg=image2image",
     "-e file:///${PROJECT_ROOT}/modules/sd-pipeline#egg=sd-pipeline",
+    "-e file:///${PROJECT_ROOT}/modules/upscale-downscale-details-enhancer#egg=upscale-downscale-details-enhancer",
     "-e file:///${PROJECT_ROOT}/modules/convert2coco#egg=convert2coco",
     "-e file:///${PROJECT_ROOT}/modules/yolox-module#egg=yolox-module",
 ]

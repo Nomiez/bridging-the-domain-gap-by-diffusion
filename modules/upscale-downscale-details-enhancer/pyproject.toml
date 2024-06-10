@@ -1,0 +1,28 @@
+[project]
+name = "upscale-downscale-details-enhancer"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Simon Okutan", email = "simon.okutan@tum.de"},
+]
+
+dependencies = [
+    "diffusers>=0.27",
+    "accelerate>=0.17.0",
+    "torch",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/../sd-pipeline-typing#egg=sd-pipeline-typing",
+]
+
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = []
