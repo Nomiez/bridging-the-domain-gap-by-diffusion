@@ -42,7 +42,7 @@ dependencies = [
     "sd-pipeline-typing @ file:///${PROJECT_ROOT}/../sd-pipeline-typing#egg=sd-pipeline-typing",
 ]
 
-requires-python = ">=3.11"
+requires-python = "==3.8.*"
 readme = "README.md"
 license = {text = "MIT"}
 

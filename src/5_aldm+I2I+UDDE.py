@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os.path
 
 from sd_pipeline.components import Pipeline, PipelineConfig, SubPipeline
