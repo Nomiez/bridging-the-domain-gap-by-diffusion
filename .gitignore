@@ -162,11 +162,13 @@ cython_debug/
 # Ignore pdm files
 .pdm-python
 
-# Ignore all input files 
-data/*
-pretrained/*
-
 # Allow git keep files in the whole directory
 !.gitkeep
+
+# Ignore all input files
+data/*
+pretrained/*
+modules/yolox-module/yolox_packages/*
+
 .idea
 debug
