@@ -8,9 +8,10 @@ authors = [
 
 dependencies = [
     "torch>=1.7",
+    "yolox>=0.3.0",
 ]
 
-requires-python = ">=3.11"
+requires-python = "==3.8.*"
 readme = "README.md"
 license = {text = "MIT"}
 

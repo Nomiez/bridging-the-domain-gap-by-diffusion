@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sd_pipeline_typing.types import Config
 
 
@@ -21,7 +23,7 @@ class YoloXConfig(Config):
         cache: str | None = None,
         occupy: bool | None = False,
         logger: str | None = "tensorboard",
-        opts: list[str] | None = None,
+        opts: list[str] = [],
     ):
         self.experiment_name = experiment_name
         self.name = name
@@ -40,24 +42,3 @@ class YoloXConfig(Config):
         self.occupy = occupy
         self.logger = logger
         self.opts = opts
-
-    def __dict__(self):
-        return {
-            "experiment_name": self.experiment_name,
-            "name": self.name,
-            "dist_backend": self.dist_backend,
-            "dist_url": self.dist_url,
-            "batch_size": self.batch_size,
-            "devices": self.devices,
-            "exp_file": self.exp_file,
-            "resume": self.resume,
-            "ckpt": self.ckpt,
-            "start_epoch": self.start_epoch,
-            "num_machines": self.num_machines,
-            "machine_rank": self.machine_rank,
-            "fp16": self.fp16,
-            "cache": self.cache,
-            "occupy": self.occupy,
-            "logger": self.logger,
-            "opts": self.opts,
-        }

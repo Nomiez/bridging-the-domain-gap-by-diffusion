@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import warnings
 import random
 
@@ -6,7 +8,7 @@ from PIL import Image
 from torch.backends import cudnn
 
 from yolox.core import launch
-from yolox.exp import Exp, check_exp_value, get_exp
+from yolox.exp import Exp, get_exp
 from yolox.utils import configure_module, configure_nccl, configure_omp, get_num_devices
 
 from sd_pipeline_typing.types import Module
@@ -41,10 +43,9 @@ class YoloX(Module):
             trainer.train()
 
         configure_module()
-        args = self.config.__dict__()
+        args = self.config
         exp = get_exp(args.exp_file, args.name)
         exp.merge(args.opts)
-        check_exp_value(exp)
 
         if not args.experiment_name:
             args.experiment_name = exp.exp_name
