@@ -1,6 +1,4 @@
-import os
-from typing import Dict, Tuple
-from pathlib import Path
+from typing import Dict
 
 from PIL.Image import Image
 
