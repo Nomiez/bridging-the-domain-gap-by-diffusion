@@ -6,7 +6,7 @@ repos:
       args: [ --fix ]
     - id: ruff-format
 # https://stackoverflow.com/questions/71657355/run-mypy-from-pre-commit-for-different-directories
-- repo: https://github.com/RobertCraigie/pyright-python
-  rev: v1.1.364
-  hooks:
-    - id: pyright
+# - repo: https://github.com/RobertCraigie/pyright-python
+#   rev: v1.1.364
+#   hooks:
+#     - id: pyright
