@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sd_pipeline.components import Pipeline, PipelineConfig
 from yolox_module import YoloX, YoloXConfig
 

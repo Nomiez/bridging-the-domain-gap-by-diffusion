@@ -1,0 +1,9 @@
+name: bridging-the-domain-gap-by-diffusion
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  # Torch
+    - python=3.8
+    - pytorch
+    - torchvision

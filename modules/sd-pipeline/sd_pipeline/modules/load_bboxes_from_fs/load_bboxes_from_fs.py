@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from typing import Dict, Tuple
 import json
@@ -12,10 +14,10 @@ def _load_bbox(bbox_name: str, input_dir: str) -> dict:
     # Open all images in the input directory
     output = {}
     image_path = os.path.join(input_dir, bbox_name)
-    with open(image_path, 'r') as bbox_file:
+    with open(image_path, "r") as bbox_file:
         output["bbox"] = json.loads(bbox_file.read())
         output["name"] = bbox_name
-    
+
     return output
 
 
