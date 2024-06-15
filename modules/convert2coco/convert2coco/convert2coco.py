@@ -79,6 +79,9 @@ class C2C(Module):
                 if bbox[0]["name"].find(name_of_bbox_contains) == -1:
                     raise ValueError("Bounding Boxes not found in the input data")
 
+                image = sorted(image, key=lambda x: x["name"])
+                bbox = sorted(bbox, key=lambda x: x["name"])
+
                 res = ()
                 for img, bbox in zip(image, bbox):
                     res += ({"image": img["image"], "name": img["name"], "bbox": bbox},)

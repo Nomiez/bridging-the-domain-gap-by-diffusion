@@ -65,6 +65,9 @@ class I2I(Module):
                 if segmentation[0]["name"].find(name_of_seg_contains) == -1:
                     raise ValueError("Segmentation not found in the input data")
 
+                image = sorted(image, key=lambda x: x["name"])
+                segmentation = sorted(segmentation, key=lambda x: x["name"])
+
                 res = ()
                 for img, seg in zip(image, segmentation):
                     res += (
