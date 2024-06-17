@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:6de0836b5dee61d23a90adbb249ac9c8c5f675103c7b33f1c1407f2365c7b08b"
+content_hash = "sha256:bf315b79936d1eba5c15952386810587e89647dfd494ed837432732ae951cffd"
 
 [[package]]
 name = "absl-py"
@@ -327,6 +327,29 @@ files = [
 ]
 
 [[package]]
+name = "carla"
+version = "0.9.15"
+summary = "Python API for communicating with the CARLA server."
+groups = ["dev"]
+files = [
+    {file = "carla-0.9.15-cp38-cp38-manylinux_2_27_x86_64.whl", hash = "sha256:19a269511d31cd6ca47cc46297afbcc93be659ba0af852c244e3cadf55086d95"},
+    {file = "carla-0.9.15-cp38-cp38-win_amd64.whl", hash = "sha256:dc597b6a91b819b54afd5f1c32d401f066ce77676a0359b7470055d9bab95954"},
+]
+
+[[package]]
+name = "carla-module"
+version = "0.1.0"
+requires_python = "==3.8.*"
+editable = true
+path = "./modules/carla-module"
+summary = "Default template for PDM package"
+groups = ["dev"]
+dependencies = [
+    "carla>=0.9.15",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
+]
+
+[[package]]
 name = "certifi"
 version = "2024.6.2"
 requires_python = ">=3.6"
@@ -579,6 +602,16 @@ dependencies = [
 ]
 files = [
     {file = "fire-0.6.0.tar.gz", hash = "sha256:54ec5b996ecdd3c0309c800324a0703d6da512241bc73b553db959d98de0aa66"},
+]
+
+[[package]]
+name = "flatbuffers"
+version = "24.3.25"
+summary = "The FlatBuffers serialization format for Python"
+groups = ["dev"]
+files = [
+    {file = "flatbuffers-24.3.25-py2.py3-none-any.whl", hash = "sha256:8dbdec58f935f3765e4f7f3cf635ac3a77f83568138d6a2311f524ec96364812"},
+    {file = "flatbuffers-24.3.25.tar.gz", hash = "sha256:de2ec5b203f21441716617f38443e0a8ebf3d25bf0d9c0bb0ce68fa00ad546a4"},
 ]
 
 [[package]]
@@ -1578,6 +1611,23 @@ dependencies = [
 files = [
     {file = "omegaconf-2.1.1-py3-none-any.whl", hash = "sha256:be93d73eaa2564fbe52d88ee13e3b79f4c6e04876b2f326551a21391f7dc6367"},
     {file = "omegaconf-2.1.1.tar.gz", hash = "sha256:c65e05530369484e074a24038fe31812c73561aa9d916abfd1209e4073136ae5"},
+]
+
+[[package]]
+name = "onnxruntime"
+version = "1.8.0"
+summary = "ONNX Runtime is a runtime accelerator for Machine Learning models"
+groups = ["dev"]
+dependencies = [
+    "flatbuffers",
+    "numpy>=1.16.6",
+    "protobuf",
+]
+files = [
+    {file = "onnxruntime-1.8.0-cp38-cp38-macosx_10_12_x86_64.whl", hash = "sha256:2a4022d357c38c1c028b20a815deaa12f609fb6902f514de1d574810c860b70d"},
+    {file = "onnxruntime-1.8.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:229c684f3f91dd830ff00dedcd3e97b9124360248eb109fb893324e3131ec2cc"},
+    {file = "onnxruntime-1.8.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f8cfdb4601267ed42eb5a33bd611b8ee27c7700b2dfc00401a8031e2ab897c97"},
+    {file = "onnxruntime-1.8.0-cp38-cp38-win_amd64.whl", hash = "sha256:b337534228373c7582667f3fc1080be0dfff7ebd38a782d84ede4beb04535e65"},
 ]
 
 [[package]]
@@ -3452,16 +3502,6 @@ files = [
 ]
 
 [[package]]
-name = "yolox"
-version = "0.3.0"
-requires_python = ">=3.6"
-summary = ""
-groups = ["dev"]
-files = [
-    {file = "yolox-0.3.0.tar.gz", hash = "sha256:1b8ee68846434408c40074f0806259fe3b9387181e562dbc435ea666533d8d08"},
-]
-
-[[package]]
 name = "yolox-module"
 version = "0.1.0"
 requires_python = "==3.8.*"
@@ -3470,8 +3510,8 @@ path = "./modules/yolox-module"
 summary = "Object detection with YOLOX."
 groups = ["dev"]
 dependencies = [
+    "onnxruntime==1.8.0",
     "torch>=1.7",
-    "yolox>=0.3.0",
 ]
 
 [[package]]
