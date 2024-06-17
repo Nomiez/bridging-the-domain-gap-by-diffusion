@@ -33,4 +33,10 @@ class LFFS(Module):
             res = res[0]  # type: ignore
         if len(res) == 0:
             raise ValueError("No images found in the input directory")
+
+        if self.config.clear_dir:
+            for image_name in os.listdir(self.config.input_dir):
+                if image_name.endswith(".png") or image_name.endswith(".jpg"):
+                    os.remove(os.path.join(self.config.input_dir, image_name))
+
         return res

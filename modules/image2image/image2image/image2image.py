@@ -29,7 +29,7 @@ class I2I(Module):
         controlnet = ControlNetModel.from_pretrained(
             "lllyasviel/sd-controlnet-seg",
             torch_dtype=torch.float16,
-        )
+        ).to("cuda")
 
         pipeline = AutoPipelineForImage2Image.from_pretrained(
             "runwayml/stable-diffusion-v1-5",
@@ -37,8 +37,7 @@ class I2I(Module):
             torch_dtype=torch.float16,
             variant="fp16",
             use_safetensors=True,
-        )
-        pipeline.to("cuda")
+        ).to("cuda")
 
         # prepare image
         prompt = self.config.prompt

@@ -35,6 +35,7 @@ dev = [
     "-e file:///${PROJECT_ROOT}/modules/upscale-downscale-details-enhancer#egg=upscale-downscale-details-enhancer",
     "-e file:///${PROJECT_ROOT}/modules/convert2coco#egg=convert2coco",
     "-e file:///${PROJECT_ROOT}/modules/yolox-module#egg=yolox-module",
+    "-e file:///${PROJECT_ROOT}/modules/convert-seg-format#egg=convert-seg-format",
 ]
 lint = [
     "pre-commit>=3.0.0",
