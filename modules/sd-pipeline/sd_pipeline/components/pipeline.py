@@ -60,7 +60,9 @@ class Pipeline:
             config: PipelineConfig,
         ) -> Dict[str, str | Image] | Tuple:
             if isinstance(input_data, dict):
-                return Pipeline(config, pipeline.functions)._inject_image_data(input_data).run()
+                return (
+                    Pipeline(config, pipeline.functions.copy())._inject_image_data(input_data).run()
+                )
             else:
                 output = ()
 
