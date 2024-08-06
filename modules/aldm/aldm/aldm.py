@@ -119,10 +119,10 @@ class ALDM(Module):
         control_cond = convert_id_to_control(label_id, model)  # (768, 128, 256)
 
         # Define the prompt here
-        prompt = config.prompt if not config.neg else ""
+        prompt = config.prompt
 
-        # # Define the negative prompt here
-        n_prompt = "lowres,text,error,extra digit,fewer digits,cropped,worst quality,low quality,normal quality,jpeg artifacts,signature,watermark,username, blurry,artist name"
+        # Define the negative prompt here
+        n_prompt = config.neg_prompt
 
         num_samples = config.num_samples
         ddim_steps = config.ddim_steps

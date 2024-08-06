@@ -164,7 +164,7 @@ class Pipeline:
                         else:
                             new_input_data += (item,)
                     input_data = new_input_data
-            else:
+            elif depth >= 0:
                 if not isinstance(depth, int):
                     raise ValueError("Depth must be an integer or 'max'")
                 for _ in range(depth):
@@ -176,6 +176,11 @@ class Pipeline:
                             new_input_data += (item,)
                     input_data = new_input_data
 
+            else:
+                if not isinstance(depth, int):
+                    raise ValueError("Depth must be an integer or 'max'")
+                for _ in range(-depth):
+                    input_data = (input_data,)
             if not isinstance(input_data, tuple):
                 raise ValueError("Output data is not a tuple")
 
