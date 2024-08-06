@@ -60,7 +60,6 @@ class I2IDepth(Module):
     def format_stream(
         *,
         name_of_depth_contains: str = "_depth",
-        denormalize_function: Union[Callable, None] = None,
     ):
         def prepare(input_data: Tuple, _):
             image, depth = input_data
@@ -73,16 +72,8 @@ class I2IDepth(Module):
                     raise ValueError("Segmentation not found in the input data")
 
                 res = ()
-                if denormalize_function is not None:
-                    for img, dep in zip(image, depth):
-                        array = denormalize_function(np.array(dep["image"]))
-                        image = Image.fromarray(array)
-                        res += ({"image": img["image"], "name": img["name"], "depth": image},)
-                else:
-                    for img, dep in zip(image, depth):
-                        res += (
-                            {"image": img["image"], "name": img["name"], "depth": dep["image"]},
-                        )
+                for img, dep in zip(image, depth):
+                    res += ({"image": img["image"], "name": img["name"], "depth": dep["image"]},)
                 return res
             else:
                 if depth["name"].find(name_of_depth_contains) == -1:
@@ -91,20 +82,10 @@ class I2IDepth(Module):
                 if depth["name"].find(name_of_depth_contains) == -1:
                     raise ValueError("Segmentation not found in the input data")
 
-                if denormalize_function is not None:
-                    for img, dep in zip(image, depth):
-                        array = denormalize_function(np.array(dep["image"]))
-                        image = Image.fromarray(array)
-                        return {
-                            "image": img["image"],
-                            "name": img["name"],
-                            "depth": image,
-                        }
-                else:
-                    return {
-                        "image": image["image"],
-                        "name": image["name"],
-                        "depth": depth["image"],
-                    }
+                return {
+                    "image": image["image"],
+                    "name": image["name"],
+                    "depth": depth["image"],
+                }
 
         return prepare

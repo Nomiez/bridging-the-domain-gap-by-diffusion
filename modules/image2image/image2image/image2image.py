@@ -27,7 +27,7 @@ class I2I(Module):
         control_img = input_data["segmentation"]
 
         controlnet = ControlNetModel.from_pretrained(
-            "lllyasviel/sd-controlnet-seg",
+            "lllyasviel/control_v11p_sd15_seg",
             torch_dtype=torch.float16,
         ).to("cuda")
 
@@ -41,10 +41,14 @@ class I2I(Module):
 
         # prepare image
         prompt = self.config.prompt
-
+        negative_prompt = self.config.negative_prompt
         # pass prompt and image to pipeline
         image_in_pipeline = pipeline(
-            prompt, image=image, control_image=control_img, strength=self.config.strength
+            prompt,
+            negative_prompt=negative_prompt,
+            image=image,
+            control_image=control_img,
+            strength=self.config.strength,
         ).images[0]
 
         output["name"] = img_name
@@ -63,9 +67,6 @@ class I2I(Module):
 
                 if segmentation[0]["name"].find(name_of_seg_contains) == -1:
                     raise ValueError("Segmentation not found in the input data")
-
-                image = sorted(image, key=lambda x: x["name"])
-                segmentation = sorted(segmentation, key=lambda x: x["name"])
 
                 res = ()
                 for img, seg in zip(image, segmentation):

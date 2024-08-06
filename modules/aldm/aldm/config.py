@@ -8,7 +8,7 @@ class ALDMConfig(Config):
         self,
         *,
         prompt: str,
-        neg: bool,
+        neg_prompt: str,
         num_samples: int,
         ddim_steps: int,
         cfg_scale: float,
@@ -17,7 +17,7 @@ class ALDMConfig(Config):
         model: str = "cityscapes",
     ):
         self.prompt = prompt
-        self.neg = neg
+        self.neg_prompt = neg_prompt
         self.num_samples = num_samples
         self.ddim_steps = ddim_steps
         self.cfg_scale = cfg_scale

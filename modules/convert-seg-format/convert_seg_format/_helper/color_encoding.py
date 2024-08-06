@@ -1,8 +1,12 @@
+from typing import Any
+
 import numpy as np
+from numpy import ndarray, dtype, unsignedinteger
+from numpy._typing import _8Bit
 
 
 # Source: ALDM
-def get_color_map(color_map: str) -> dict:
+def get_color_map(color_map: str) -> ndarray[Any, dtype[Any]]:
     if color_map == "cityscapes":
         return np.array(
             [
