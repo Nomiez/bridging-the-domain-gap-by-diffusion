@@ -10,6 +10,7 @@ from sahi.utils.file import save_json
 from sd_pipeline_typing.types import Module
 
 from .config import C2CConfig
+from .classes import get_coco_classes
 
 
 class C2C(Module):
@@ -26,7 +27,11 @@ class C2C(Module):
         """
 
         coco = Coco()
-        coco.add_category(CocoCategory(id=1, name="vehicle"))
+        classes = get_coco_classes()
+        for cls in classes:
+            coco.add_category(
+                CocoCategory(id=cls["id"], name=cls["name"], supercategory=cls["supercategory"])
+            )
 
         if isinstance(input_data, dict):
             input_data = (input_data,)
@@ -58,7 +63,7 @@ class C2C(Module):
 
                 coco_image.add_annotation(
                     CocoAnnotation(
-                        bbox=[top_x, top_y, width, height], category_id=1, category_name="vehicle"
+                        bbox=[top_x, top_y, width, height], category_id=3, category_name="vehicle"
                     )
                 )
 
