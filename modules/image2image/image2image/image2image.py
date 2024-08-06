@@ -29,7 +29,7 @@ class I2I(Module):
         controlnet = ControlNetModel.from_pretrained(
             "lllyasviel/sd-controlnet-seg",
             torch_dtype=torch.float16,
-        )
+        ).to("cuda")
 
         pipeline = AutoPipelineForImage2Image.from_pretrained(
             "runwayml/stable-diffusion-v1-5",
@@ -37,8 +37,7 @@ class I2I(Module):
             torch_dtype=torch.float16,
             variant="fp16",
             use_safetensors=True,
-        )
-        pipeline.to("cuda")
+        ).to("cuda")
 
         # prepare image
         prompt = self.config.prompt
@@ -64,6 +63,9 @@ class I2I(Module):
 
                 if segmentation[0]["name"].find(name_of_seg_contains) == -1:
                     raise ValueError("Segmentation not found in the input data")
+
+                image = sorted(image, key=lambda x: x["name"])
+                segmentation = sorted(segmentation, key=lambda x: x["name"])
 
                 res = ()
                 for img, seg in zip(image, segmentation):

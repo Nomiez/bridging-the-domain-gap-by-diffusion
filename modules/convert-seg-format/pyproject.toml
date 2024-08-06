@@ -1,5 +1,5 @@
 [project]
-name = "image2image"
+name = "convert-seg-format"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
@@ -7,10 +7,8 @@ authors = [
 ]
 
 dependencies = [
-    "diffusers>=0.27",
-    "accelerate>=0.17.0",
-    "numpy>=1.26.4",
-    "torch",
+    "numpy",
+    "pillow==10.3.0",
     "sd-pipeline-typing @ file:///${PROJECT_ROOT}/../sd-pipeline-typing#egg=sd-pipeline-typing",
 ]
 
