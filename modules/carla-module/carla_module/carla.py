@@ -34,7 +34,7 @@ class Carla(Module):
 
         for script in path.glob("*.py"):
             module_name = script.stem
-            class_ = self._import_class_from_file(module_name, "CarlaScript")
+            class_ = Carla._import_class_from_file(module_name, "CarlaScript")
 
             class_instance = class_(config=self.config)
             class_instance.pre()
