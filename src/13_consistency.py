@@ -9,13 +9,25 @@ from sd_pipeline.modules.sort import Sort, SortConfig
 from convert_seg_format.to_ade import ToAde, ToAdeConfig
 from image2image import I2I, I2IConfig
 from pathlib import Path
-from random import randint
+
+"""
+This script generates the output for the temporal and spacial consistency tests guided by segmentation.
+"""
 
 if __name__ == "__main__":
-    input_seg_maps = "data/cons/seg"
-    current_image = "data/cons/current"
-    generated_image = "data/cons/output"
-    debug_output = "data/cons/debug"
+    # snowy scene, cars, vehicles, white, realistic
+    # night scene, cars, vehicles, dark, realistic
+    # day scene, cars, vehicles, realistic
+    # rainy scene, cars, vehicles, realistic
+    # dawn scene, cars, vehicles, realistic
+    # foggy scene, cars, vehicles, grey, realistic
+
+    input_seg_maps = "data/input_8_100/Scene6/seg"
+    current_image = "data/input_8_100/Scene6/current"
+    generated_image = "data/input_8_100/Scene6/output_seg"
+    debug_output = "data/input_8_100/Scene6/debug"
+    prompt = "foggy scene, cars, vehicles, grey, realistic"
+    negative_prompt = "red, ugly, deformed, disfigured, poor details"
 
     (
         Pipeline.init(pipeline_config=PipelineConfig())
@@ -32,9 +44,9 @@ if __name__ == "__main__":
         .for_each(
             SubPipeline.init()
             .parallel(
-                SubPipeline.init().step(
-                    LFFS(config=LFFSConfig(input_dir=current_image, clear_dir=True))
-                ),
+                SubPipeline.init()
+                .step(LFFS(config=LFFSConfig(input_dir=current_image, clear_dir=True)))
+                .step(Resize(config=ResizeConfig(W=1920, H=1080))),
                 SubPipeline.init(),  # nullop
             )
             .prepare(I2I.format_stream(name_of_seg_contains="_segmentation"))
@@ -42,7 +54,7 @@ if __name__ == "__main__":
                 SubPipeline.init().step(
                     I2I(
                         config=I2IConfig(
-                            prompt="sunny scene, driving cars, ultra realism", strength=0.3
+                            prompt=prompt, negative_prompt=negative_prompt, strength=0.8
                         )
                     )
                 )

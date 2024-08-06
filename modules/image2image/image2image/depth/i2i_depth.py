@@ -45,10 +45,15 @@ class I2IDepth(Module):
 
         # prepare image
         prompt = self.config.prompt
+        negative_prompt = self.config.negative_prompt
 
         # pass prompt and image to pipeline
         image_in_pipeline = pipeline(
-            prompt, image=image, control_image=control_img, strength=self.config.strength
+            prompt,
+            image=image,
+            negative_prompt=negative_prompt,
+            control_image=control_img,
+            strength=self.config.strength,
         ).images[0]
 
         output["name"] = img_name

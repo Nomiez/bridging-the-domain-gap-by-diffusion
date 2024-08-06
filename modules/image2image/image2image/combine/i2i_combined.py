@@ -33,7 +33,7 @@ class I2ICombined(Module):
         control_img_depth = input_data["depth"]
 
         controlnet_seg = ControlNetModel.from_pretrained(
-            "lllyasviel/sd-controlnet-seg",
+            "lllyasviel/control_v11p_sd15_seg",
             torch_dtype=torch.float16,
         ).to("cuda")
 

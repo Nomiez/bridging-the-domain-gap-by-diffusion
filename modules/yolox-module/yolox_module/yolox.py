@@ -20,9 +20,7 @@ class YoloX(Module):
     def __init__(self, *, config: YoloXConfig):
         self.config = config
 
-    def run(
-        self, input_data: dict[str, str | Image.Image], pipeline_config
-    ) -> dict[str, str | Image.Image]:
+    def run(self, input_data: dict[str, str | Image.Image], pipeline_config) -> None:
         def main(exp: Exp, args):
             if exp.seed is not None:
                 random.seed(exp.seed)
