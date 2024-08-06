@@ -5,16 +5,17 @@ from sd_pipeline.modules.load_from_fs import LFFS, LFFSConfig
 from sd_pipeline.modules.store_in_fs import SIFS, SIFSConfig
 from sd_pipeline.modules.rename import Rename, RenameConfig
 from sd_pipeline.modules.resize import Resize, ResizeConfig
-from upscale_downscale_details_enhancer import UDDE, UDDEConfig
+from convert_seg_format.to_ade import ToAde, ToAdeConfig
 from aldm import ALDM, ALDMConfig
 from image2image import I2I, I2IConfig
 
 """
-This script provides a short demo for the UDDE module in combination with the image2image segmentation module.
+This script provides a short demo of the image2image segmentation module inside the pipeline.
 """
 
+
 if __name__ == "__main__":
-    main_theme = "snowy scene"
+    main_theme = "sunny scene"
     # Init configs
     pipeline_config = PipelineConfig()
     aldm_config = ALDMConfig(
@@ -27,10 +28,10 @@ if __name__ == "__main__":
         random_seed=True,
     )
 
-    lffs_config = LFFSConfig(input_dir=os.path.join(os.getcwd(), "data/input_one"))
+    lffs_config = LFFSConfig(input_dir=os.path.join(os.getcwd(), "data/input_7/images"))
 
     sifs_config = SIFSConfig(
-        output_dir="data/output_one",
+        output_dir="data/output_2",
     )
 
     result = (
@@ -38,33 +39,27 @@ if __name__ == "__main__":
         .parallel(
             SubPipeline.init()
             .step(LFFS(config=lffs_config))
-            .for_each(SubPipeline.init().step(ALDM(config=aldm_config))),
+            .for_each(SubPipeline.init().step(ALDM(config=aldm_config)))
+            .for_each(SubPipeline.init().step(Resize(config=ResizeConfig(W=1920, H=1080)))),
             SubPipeline.init()
             .step(LFFS(config=lffs_config))
+            .for_each(SubPipeline.init().step(ToAde(config=ToAdeConfig())))
             .for_each(
                 SubPipeline.init().step(
                     Rename(config=RenameConfig(rename_function=lambda x: x + "_segmentation"))
                 )
-            )
-            .for_each(SubPipeline.init().step(Resize(config=ResizeConfig(W=1024, H=512)))),
+            ),
         )
         .prepare(I2I.format_stream(name_of_seg_contains="_segmentation"))
         .for_each(
             SubPipeline.init().step(
                 I2I(
                     config=I2IConfig(
-                        prompt=f"{main_theme}, ultra realism, sharp, detailed, 8k",
+                        prompt=f"{main_theme}, photorealistic, cars",
                         negative_prompt="ugly, deformed, disfigured, poor details",
-                        strength=0.5,
+                        strength=0.7,
                     )
                 )
-            )
-        )
-        .for_each(SubPipeline.init().step(Resize(config=ResizeConfig(W=1024, H=512))))
-        .for_each(
-            SubPipeline.init().step(
-                UDDE(config=UDDEConfig(prompt=f"{main_theme}, ultra realism, sharp, detailed, 8k")),
-                iterations=5,
             )
         )
         .step(SIFS(config=sifs_config))

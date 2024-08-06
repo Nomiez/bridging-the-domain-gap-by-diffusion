@@ -8,11 +8,11 @@ from diffusers import AutoPipelineForImage2Image
 
 from sd_pipeline_typing.types import Module
 
-from .config import I2IConfig
+from .config import I2IBaseConfig
 
 
 class I2I(Module):
-    def __init__(self, *, config: I2IConfig):
+    def __init__(self, *, config: I2IBaseConfig):
         self.config = config
 
     def run(
@@ -32,9 +32,12 @@ class I2I(Module):
 
         # prepare image
         prompt = self.config.prompt
+        negative_prompt = (self.config.negative_prompt,)
 
         # pass prompt and image to pipeline
-        image_in_pipeline = pipeline(prompt, image=image, strength=self.config.strength).images[0]
+        image_in_pipeline = pipeline(
+            prompt, negative_prompt=negative_prompt, image=image, strength=self.config.strength
+        ).images[0]
 
         output["name"] = img_name
         output["image"] = image_in_pipeline
