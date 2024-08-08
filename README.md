@@ -27,10 +27,6 @@ To install this project, first setup a [Conda](https://www.anaconda.com/download
 conda env create -y -f=environment.yml
 conda activate sdpipeline
 ```
-If everything worked, please install torch next into the environment
-```bash
-conda install torch
-```
 For the next step [PDM](https://pdm-project.org/en/latest/) has to be installed. Please refer to the 
 [official page](https://pdm-project.org/en/latest/) for installation or use:
 ```bash
