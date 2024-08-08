@@ -1,0 +1,177 @@
+\setcounter{chapter}{-1}
+\chapter{Thesis Template Information}
+\label{ch:template_info}
+\section{General}
+\label{sec:general}
+In total, the Master's thesis (Introduction - Outlook) should amount to \textbf{60 $\pm$ 5 pages} (Bachelor 40 $\pm$ 5) (with 60 being the ideal amount of pages). Recommendations for amount of pages per chapter in case of a Master's thesis and their contents are given for each chapter. Depending on the topic, the distribution between background + related work and own work + evaluation may vary. Ideally, each part should amount to 50\,\%.
+
+The general structure including chapter naming should not be changed unless stated otherwise. The following sections show important information about the general style and formatting and should not be part of the final version!
+
+\section{Notation}
+\label{sec:notation}
+Please follow the typesetting standards in mathematics that the 'International Standards Organization (ISO) has established. The most important points in it (and some additional) are: 
+  
+
+\begin{enumerate}
+\item Simple variables are represented by italic letters as $a,\,x,\,A,\,X$.
+\item Vectors are written in boldface italic (uncapitalized) as $\vect{a,\, x}$.
+\item Matrices may appear as boldface italic capital letters as in $\boldsymbol{A,\, X}$
+\item Sets are represented by capital script letters as $\mathcal{A}$, $\mathcal{X}$.
+\item Special numbers $\me$, $\mj$ and the differential operator $\diff$ are written in upright roman.
+\item Functions are not written in math-mode $\sin(x),\,\operatorname{si}(x)$.
+\item Units are separated with half spacing from their value: $5\,\text{m},\,10\,\%,\,\ldots$ 
+
+\item Indexes depending on a variable $i$ are written in math mode $\boldsymbol{a}_i$ while indexes denoting a property are written in usual text $\boldsymbol{a}_{\text{input}}$.
+
+\item If you want to highlight part of your text only use \textit{italicization} and never \underline{underline} or \textbf{embolden} any text (except bold section names, chapters or title or when emphasizing on the best results in tables).
+
+\end{enumerate}
+
+\section{Figures}
+\label{sec:figures}                                     
+
+Make sure that you save your graphics in \textit{vector form}, which will not degrade your graphic when magnified. Both eps and pdf support vector graphics. However, saving the file as eps/pdf does \textit{not} guarantee that it is a vector graphic. To make sure zoom in and see if you detect pixels at the text or try to select the text with your cursor. If the text is rasterized (not vectorized) you did a mistake when generating the eps. \autoref{fig:matlabcomp} shows the comparison of a plot once saved as a vector graphic and once as rasterized graphic. 
+
+\begin{figure}[H]
+\hfill
+	\begin{minipage}{0.4\linewidth}
+	\centering
+	\subfigure[Matlab plot exported directly as eps/pdf which saves the plot in vector form. Note the nice quality even though it has been rescaled.]{
+		\includegraphics[width=0.9\linewidth]{figures/varyM}
+		\label{fig:matlabgood}
+	}
+	\end{minipage}\hfill
+	\begin{minipage}{0.4\linewidth}
+	\centering
+	\subfigure[Matlab plot saved in bitmap form. The quality is bad. Remember: Export your figures as vector graphic if possible.]{
+		\includegraphics[width=0.9\linewidth]{figures/varyM_jpg}
+		\label{fig:matlabbad}
+	}
+	\end{minipage}
+\hfill
+	\caption{Comparison of a vector and a rasterized plot.}
+	\label{fig:matlabcomp}
+\end{figure}
+
+
+\paragraph*{How to draw high-quality graphics?}
+Draw all your drawings with an application that supports vector graphics. My favorite is \textit{Inkscape}. Alternatives include Adobe Illustrator, sK1, yED, Xara Xtreme, OpenOffice Draw. Vector graphics can also directly drawn in latex using tikz notation or with help of TikzEdit.
+These applications save your drawing automatically in vector form; if you include a photo it is usually still saved in bitmap form. \autoref{fig:nn} shows a graphic generated in tikz and \autoref{fig:faces} a graphic drawn with Inkscape. Even though a file saved as \textit{.eps} seems to be vectorized, it can also be completely rasterized. To check if your figure is still vectorized zoom in and verify that the text is still sharp. If not you figure might contain transparency or color gradients, which causes \textit{Inkscape} to raster the whole figure.
+
+Make sure all graphics are \textit{well-readable} (line width, colors, fonts, arrows) and \textit{conclusive}. Also, all graphics in your thesis should be \textit{consistent} (same style). As you see in \autoref{fig:nn} and \autoref{fig:faces}, it is hard to create two figures of the same style by using two different tools.
+
+\begin{figure}[H]
+  \centering
+  \resizebox{.65\textwidth}{!}{
+\input{template_information/multilayer_feedforward.tex}}
+  \caption{Multilayer feedforward neural network generated with Tikz.}
+  \label{fig:nn}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+\includegraphics[width=0.87\linewidth]{figures/network.eps}
+  \caption{Neural network architecture generated in Inkscape as shown in \cite{hoerman2019ORNAN}.}
+  \label{fig:faces}
+\end{figure}
+
+\paragraph*{How to generate high-quality plots?}
+Python plots (with \textit{matplotlib}) can be converted to tikz code and included in \LaTeX using the package \textit{matplotlib2tikz}.  The huge advantage is that all plots can be edited (labels, limits, ticks, legends, etc.) afterwards within latex without exporting it again. In  \autoref{fig:plot}, you can e.g. adjust the height of the figure by adjusting \verb'\setlength\figureheight{4cm}'. The plot will be generated again with the new height without deforming the text. For MATLAB you can use the script \textit{matlab2tikz}. Do not forget to \textit{label all axes} of your plots and include a \textit{legend}.
+
+\begin{figure}[H]
+  \centering
+  \newlength\figureheight
+\newlength\figurewidth
+\setlength\figureheight{4cm}
+\setlength\figurewidth{0.7\linewidth}
+\input{template_information/plot.tex}
+  \caption{Example of a plot generated with matplotlib2tikz (see \cite{hoerman2019ORNAN}).}
+  \label{fig:plot}
+\end{figure}
+
+
+\paragraph*{How to use figures from other papers?}
+Most likely the paper, from which you want to use the figure, will be available via \href{https://arxiv.org/}{arXiv}. If that's the case you can download the source code selecting \textit{Other formats}. There you will find the figures in the best resolution available.
+Especially in related work, it is not necessary to entirely recreate figures from other papers. However, you might want to change inputs/outputs variable names to obtain a thesis-wide consistent notation. Do not forget to cite the paper when using illustrations - even when you make small changes.
+
+To obtain \autoref{fig:styleGAN}, we downloaded the source from  \href{https://arxiv.org/format/1812.04948}{arXiv}, deleted the left part of the figure and added a new output in \textit{Inkscape}. The resulting image is still vectorized.
+\begin{figure}[H]
+  \centering
+\includegraphics[width=0.75\linewidth]{figures/StyleGAN.eps}
+  \caption{StyleGAN architecture for generation of a face image. Adapted from \cite{karras2019style}.}
+  \label{fig:styleGAN}
+\end{figure}
+
+In case you cannot find the paper on arXiv, you can try to export the figure from the pdf or rebuild it. Taking a screenshot of the figure at the highest possible resolution works for presentations, but will lack quality in the printed version. 
+
+\section{Tables}
+
+Contents of a table can often be grouped. As illustrated by \autoref{tab:results}, vertical lines are not really necessary for that. Moreover, vertical lines often let the table seem overloaded. This is also described by the layout principle ''\textit{Less is more}''. Take a look at this \href{https://inf.ethz.ch/personal/markusp/teaching/guides/guide-tables.pdf}{Small Guide to Making Nice Tables}.
+The best results for each metric should be made \textbf{bold}. Besides, note that the caption (in comparison to the figures) is above the table. 
+
+If you work with Excel, \href{https://ctan.org/pkg/excel2latex}{this package} might be helpful for automatically generating \LaTeX -code. 
+
+\begin{table}[H]
+\caption{Results of metric 1, 2 and 3 in percent of our proposed methods in comparison with 3 baseline methods on benchmarks 1 and 2.}
+\label{tab:results}  
+\centering
+\small
+    \begin{tabular}{lLLLLRL}
+    \toprule
+          &      \multicolumn{2}{c}{Benchmark 1}     &      \multicolumn{4}{c}{Benchmark 2}     \\
+          
+\cmidrule(lr){2-3} \cmidrule(lr){4-7} 
+          
+    Method & \text{Metric 1} & \text{Metric 2} & \text{Metric 1} & \text{Metric 2} &  \multicolumn{2}{c}{Metric 3}  \\
+    \midrule
+    Baseline 1 \cite{baseline1} & 37.0    & \phantom{0}0.0     & 28.3  & \phantom{0}0.0     & \multicolumn{2}{C}{73.6}    \\
+    Baseline 2 \cite{baseline2} & 84.1  & 36.9  & 81.3  & 29.9  & \multicolumn{2}{C}{93.1}  \\
+    Baseline 3 & 85.2  & 60.1  & 83.6  & \textbf{57.2} & \multicolumn{2}{C}{-}   \\
+        \midrule
+    Ours 1 & 87.2  & 57.3  & 85.3  & 39.9  & 67.1 & \textbf{94.5} \\
+    Ours 2 & \textbf{87.4} & \textbf{61.2} & \textbf{85.8} & 42.6  & 63.1 & 91.7  \\
+    \bottomrule
+    \end{tabular}%
+\end{table}%
+
+\section{Equations}
+Number equations consecutively with equation numbers in parentheses. Make sure you follow the guidelines from \autoref{sec:notation}. Also, explain all used variables. When using vectors/matrices state the dimensions.
+
+The scalar output $y$ of a single neuron with the activation function $\phi\left(\cdot\right)$ is defined as follows:
+\begin{equation}
+  y = \phi\left(\boldsymbol{w}^{\text{T}}\boldsymbol{x} + b\right)
+  \label{eq:neuron}
+\end{equation}
+with the scalar $b$ denoting the bias, and $\boldsymbol{w}, \boldsymbol{x} \in \mathbb{R}^{512 \times 1}$ being the weight and the input of vectors of the neuron.
+
+Note that there is no indentation as the sentences before and after the equation are connected. If you do not need to explain further variables, leave an extra line to start a new paragraph (with indentation).
+
+\section{Captions}
+Every figure needs to have a brief caption describing the figure/table. Do not write too much and keep it short. You should highlight the details and interpret them in the written text only. In contrast to the caption of a figure, the caption of the table is above the table. 
+
+
+\section{Referencing}
+All figures/tables need to be referenced in the written text. For convenience, use \verb'\autoref{fig:styleGAN}' to reference figures. This automatically adds the type of reference in front of the number:
+\begin{itemize}
+  \item \autoref{fig:styleGAN}
+  \item \autoref{tab:results}
+  \item \autoref{eq:neuron}
+  \item \autoref{sec:notation}
+  \item \autoref{ch:template_info}
+\end{itemize}
+
+
+\section{Clean Bibliography}
+
+Every claim you make in the thesis must be verified by either your results or a citation. For details on how and what to cite please take look at \href{https://www.ub.tum.de/en/citation-guide}{TUM Citation Guide}. \textbf{If you fail to provide the source of a figure your thesis can be graded as fail 5,0 due to plagiarism.} Therefore, I recommend to always write down your source when you take a figure from another paper such that you will not forget citing it. You are on the safe side if you make all your figures by yourself. This also allows you to have an overall more consistent notation throughout the thesis. In the related work and background chapter, it is also fine to take figures from other papers (and improve them), but the source needs to be named! Examples are \autoref{fig:styleGAN} and \autoref{fig:faces}.
+
+Go to \href{https://scholar.google.com/}{Google Scholar} and search for the paper you want to cite. You can copy the bibtex entry from there directly to your bibliography file so that all the references have the same look. 
+
+Do not change the bibliography style. The first letter of the last name of the authors together with the last two digits of the year of publication should appear in the reference. Like this: \cite{baseline1} (= [EAO19])
+
+Make sure the bibliography is consistent!
+Never forget to mention author(s), title, year and where the article was published. Also, make sure every conference is formatted the same way and the title is written (capitalized) as in the paper (double \{\{Title you Want to Cite\}\} will do the job).
+
+\section{\LaTeX\ Literature}
+\label{sec:literature}
+You will find many \LaTeX-tutorials searching the internet. Besides,   \cite{Ko03} is a quite comprehensive book, of which the library has adequate stock.

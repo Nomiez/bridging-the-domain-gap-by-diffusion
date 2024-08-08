@@ -1,0 +1,125 @@
+\tikzset{neuron/.style={circle,thick,fill=black!25,minimum size=17pt,inner sep=0pt},
+    hidden neuron/.style={neuron,draw,thick, fill=blue!30},
+		output neuron/.style={neuron,draw,thick, fill=green!30},
+    hoz/.style={rotate=90}}   %<--- for labels
+    
+    \def\layersep{2.5cm}
+    
+\begin{tikzpicture}
+   \newcommand\Square[1]{+(-#1,-#1) rectangle +(#1,#1)}
+   
+%%%%%%%%%%%%%%
+% Input layer
+	\foreach \y / \lab in {1/n,3/j,5/2,6/1}{
+	\draw  (0,\y) \Square{3pt} ;    
+	\node (I-\y) at (0,\y) {};
+	\node  at (-0.5,\y-0.05) {$x_\lab$};
+	}
+
+	% Draw dots
+	\foreach \y in {2,4}
+	\node[hoz]  at (0,\y) {$\dots$};
+
+%%%%%%%%
+% Hidden Layer 1
+	\foreach \y  in {1,3,4,5}{
+	\node[hidden neuron] (H1-\y) at (\layersep,0.5+\y) {};
+	}
+	% Draw dots
+	\foreach \y in {2}
+	\node[hoz]  at (\layersep,0.5+\y) {$\dots$};
+	
+	
+	
+%%%%%%%
+% Connection I - H1
+	\foreach \y  in {1,3,5,6}{
+		\foreach \yy  in {1,3,4,5}{
+		\draw [->, shorten >=0.5pt, thick]  (I-\y.center) -- (H1-\yy) ;
+		}
+	}
+	
+	% Draw Squares again
+	\foreach \y / \lab in {1/n,3/k,5/2,6/1}
+	\draw [fill=white] (0,\y) \Square{3pt} ;    
+	
+
+%%%%%%%%
+% Hidden Layer 2
+	\foreach \y  in {1,3,4}{
+	\node[hidden neuron] (H2-\y) at (2*\layersep,1+\y) {};
+	}
+	% Draw dots
+	\foreach \y in {2}
+	\node[hoz]  at (2*\layersep,1+\y) {$\dots$};
+	
+	
+	
+%%%%%%%
+% Connection H1 - H2
+	\foreach \y  in {1,3,4,5}{
+		\foreach \yy  in {1,3,4}{
+		\draw [->, shorten >=0.5pt, thick]  (H1-\y) -- (H2-\yy) ;
+		}
+	}
+
+	
+		
+
+%%%%%%%%
+% Hidden Layer 3
+	\foreach \y  in {1,3,4}{
+	\node[hidden neuron] (H3-\y) at (3*\layersep,1+\y) {};
+	}
+	% Draw dots
+	\foreach \y in {2}
+	\node[hoz]  at (3*\layersep,1+\y) {$\dots$};
+	
+	
+	
+%%%%%%%
+% Connection H2 - H3
+	\foreach \y  in {1,3,4}{
+		\foreach \yy  in {1,3,4}{
+		\draw[-, thick]  (H2-\y) -- ($(H2-\y)!0.75cm!(H3-\yy)$);
+		\draw[<-, thick]  (H3-\y) -- ($(H3-\y)!0.75cm!(H2-\yy)$);
+		}
+	}
+	
+	% Dots
+	% Draw dots
+	\foreach \y in {1,2,3,4}
+	\node  at (2.5*\layersep,1+\y) {$\dots$};
+	
+
+	
+	
+	
+	
+	
+%%%%%
+% Output
+	\node [output neuron] (O-1) at (4*\layersep,3.5){};
+	
+	% Connection
+		\foreach \y  in {1,3,4}{
+		\draw [->, shorten >=0.5pt, thick]  (H3-\y) -- (O-1) ;
+		}
+		
+		
+%%%%%
+% Output
+	\draw (12.5,3.5) \Square{3pt} ;    
+	\node  (OO-1) at  (12.5,3.5) {};
+	\node at (13,3.5){$y$};
+	\draw [->, shorten >=-0.5pt, thick]  (O-1) -- (OO-1) ;
+
+%%%%%%%%%
+% Annotations
+
+	\draw [dashed] (0 * \layersep-25,-0.25) rectangle (0 * \layersep+15,7);
+	\draw [dashed] (5 * \layersep-15,-0.25) rectangle (5 * \layersep+25,7);
+	\node at (0 * \layersep-5,0) {Inputs};
+	\node at (5 * \layersep+5,0) {Output};
+
+\end{tikzpicture}

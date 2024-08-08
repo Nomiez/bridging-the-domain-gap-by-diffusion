@@ -1,0 +1,50 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{Motivation}
+With the recent release of StabilityAI's Open Model Stable Diffusion 3 \cite{esser2024scalingrectifiedflowtransformers}, latent diffusion models have pushed the boundaries of creating more realistic images even further. However, training these general-purpose models is extremely expensive, and they may reach a plateau where further enhancements require exponentially more data, as noted by \cite{udandarao2024zeroshotexponentialdatapretraining}. Therefore, the focus should shift towards optimizing the use of existing models for specialized tasks and exploring new scientific fields where these models can be as effective as they are in other domains.
+
+One example is the field of computer vision, which by itself has revolutionized numerous other fields, from autonomous driving and healthcare to surveillance and entertainment. Developing robust and accurate computer vision models often depends on the availability of high-quality, diverse datasets. Real-world data collection can be extremely expensive, time-consuming, and sometimes infeasible due to privacy concerns or safety issues. Consequently, synthetic data has become an important resource for bridging this gap.
+
+Synthetic data offers high flexibility, enabling researchers to generate vast quantities of labeled images under controlled conditions. This controlled environment captures necessary variations, such as different lighting conditions, weather scenarios, and camera perspectives, which are often challenging to achieve with real-world data collection. Despite these advantages, synthetic data can lack the realism required to effectively train and evaluate high-performance models \cite{zhou2017unsupervisedlearningdepthegomotion}.
+
+Diffusion models could solve this problem, offering the capability to enhance synthetic image data, making it a more realistic representation of reality while retaining the advantage of complete control over the test environment. The resulting datasets enable training on rare events, improving the robustness of detection and tracking systems and allowing training in scenarios where real data is unavailable.
+
+\section{Problem Description}
+\label{sec:prob_description}
+Synthetic data is essential for many computer vision tasks where real data is unavailable or limited, such as object detection and tracking. This thesis aims to utilize pre-trained neural networks and extensions based on Stable Diffusion \cite{rombach2022highresolution} to create a pipeline that transforms existing (synthetic) data from Synthehicle \cite{Herzog_2023_WACV} and the MUAD Dataset \cite{Franchi2022MUAD} into high-variance realistic data. Synthehicle and other synthetic datasets provide semantic, instance, and depth ground truth, which can be used as image conditions in diffusion networks. In this work, the recently proposed ALDM \cite{li2024aldm} network with other post-processing operations will be used to produce images that are: 
+\begin{itemize}
+    \item realistic, 
+    \item high-variance (in terms of weather, lighting, and overall scene conditions) and 
+    \item consistent with the ground truth labels. 
+\end{itemize}
+
+\section{Contribution} 
+The main contributions of this thesis are:
+\begin{itemize}
+    \item Implementation of a diffusion pipeline based on ALDM \cite{li2024aldm} that transforms existing
+synthetic and real images as described above, and other enhancement methods, primarily using image-to-image technology guided by different ControlNets.
+    \item Conducting a comprehensive analysis of the influence on performance when the generated data
+is used as training data for video analysis tasks focusing on object detection.
+    \item Conduction tests around spatial-temporal image consistency, especially focusing on object tracking.
+    \item Discussion of potentials and limitations of diffusion-based synthetic data generation and how
+certain emerging problems could be resolved.
+\end{itemize}
+
+\section{Structure}
+
+\subsection{Background}
+This chapter covers the foundational concepts and technologies relevant to the thesis. It includes detailed explanations of various neural network architectures, such as Artificial Neural Networks (ANNs), Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), Transformer Models, Generative Adversarial Networks (GANs), and Latent Diffusion Models. It also discusses encoder-decoder structures and the ControlNet.
+
+\subsection{Related Work}
+
+This chapter reviews existing literature and previous work related to the thesis topic. It discusses various projects and models, such as Synthehicle \cite{Herzog_2023_WACV}, Adversarial Supervision Makes Layout-to-Image Diffusion Models Thrive (ALDM) \cite{li2024aldm}, the paper "Applications of generative AI for sim-to-real data synthesis in driving" \cite{zhao2024exploring}, the CARLA simulator \cite{dosovitskiy2017carlaopenurbandriving}, and Yolo \cite{redmon2016lookonceunifiedrealtime} with its predecessor YoloX \cite{yolox2021}.
+
+\subsection{Own Work}
+This chapter details the research and contributions of this paper. It includes the project structure and functionality of the developed Stable Diffusion Pipeline. It also provides an in-depth look at the different modules created and describes the testing setups for object detection on the resulting images, as well as the consistency of resulting videos and object tracking.
+
+\subsection{Evaluation}
+This chapter presents the evaluation of the research work. It includes an assessment of ALDM \cite{li2024aldm} and image-to-image transformations regarding object detection and object tracking. The chapter also evaluates spatial-temporal image consistency and discusses diffusion-based synthetic data findings, potentials, and limitations.
+
+\subsection{Conclusion and Outlook}
+This final chapter summarizes the key findings and contributions of the thesis. It also suggests potential areas for future research, building on the results and insights gained from the current work.

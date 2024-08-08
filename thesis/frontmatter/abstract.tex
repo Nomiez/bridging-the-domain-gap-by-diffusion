@@ -1,0 +1,12 @@
+\chapter*{Abstract}
+
+This thesis addresses the growing need for realistic synthetic data in computer vision, particularly for object detection and tracking tasks, where real data is expensive and/or difficult to obtain. With the upcoming possibilities of advanced latent diffusion models, such as the open model Stable Diffusion by StabilityAI \cite{esser2024scalingrectifiedflowtransformers}, new opportunities have emerged to enhance synthetic datasets, making them more realistic while retaining advantages like easy semantic labeling of synthetic data generation.
+
+The main contribution of this work is the development of an easy-to-extend pipeline leveraging the "Adversarial Supervision Makes Layout-to-Image Diffusion" (ALDM) \cite{li2024aldm} to transform existing synthetic images via its semantic segmentation labels into  realistic and high-variance datasets. For postprocessing, this pipeline uses image-to-image processing guided by semantic segmentation labels and depth ground truth to generate images in varied weather, lighting, and scene conditions \cite{rombach2022highresolution} \cite{zhang2023addingconditionalcontroltexttoimage}. The pipeline's effectiveness was evaluated through different experiments, particularly focusing on video analysis tasks like object detection and tracking.
+
+Results indicate that while ALDM and its post-processing techniques are promising, challenges such as object distortion and noise amplification persist, limiting the overall accuracy of the generated data. Nevertheless, ALDM demonstrates robust spatial-temporal consistency on fixed camera scenes, particularly in maintaining background stability. These findings highlight the potential of diffusion-based synthetic data generation, underlining the need for further research focussing on image output with more training and integrating segmentation and depth information to enhance the resulting dataset quality.
+
+\vspace*{10px}
+\hspace*{-0.6cm}\raisebox{-1pt}{\faGithub} \href{https://github.com/Nomiez/bridging-the-domain-gap-by-diffusion}{\fontsize{8.8pt}{0pt}\path{github.com/Nomiez/bridging-the-domain-gap-by-diffusion}}
+
+
