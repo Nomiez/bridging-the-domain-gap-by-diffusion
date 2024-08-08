@@ -1,0 +1,26 @@
+\chapter{Conclusion and Outlook}
+\label{ch:conclusion}
+\section{Conclusion}
+In conclusion, this thesis introduced a user-friendly pipeline that integrates an intuitive interface with Stable Diffusion and evaluation frameworks, enabling the assessment of current advancements in Stable Diffusion algorithms. With its different modules, it currently allows large pipelines to generate different datasets used for evaluation. The created datasets are COCO annotated regarding their bounding boxes, with segmentation labeling and depth information available. All of these datasets are available for download and testing. 
+
+The findings from the conducted tests suggest that while ALDM and the associated post-processing algorithms have potential, they are not yet accurate enough to fully replace synthetic data. A key challenge lies in the distortion of generated objects, particularly in their proportions, which remains problematic even after depth information is applied during post-processing.
+
+The experiments underline the importance of training, with MUAD showing superior Average Precision (AP) and Average Recall (AR) scores compared to Synthehicle, likely due to ALDM's training on the Cityscapes dataset. An additional insight is that depth information combined with segmentation enhances the quality of a previously generated image and, therefore, consistently outperforms segmentation-only approaches. This suggests that modifying ALDM to accept both segmentation and depth information as inputs could significantly optimize the image quality.
+
+Looking at the other tests, ALDM demonstrates strong temporal and spatial consistency, maintaining stable backgrounds and object continuity across frames, especially with stationary cameras. However, distorted car contours remain unresolved, indicating a need for further refinement.
+
+\section{Future Work}
+As shown in the conclusion, there are still a lot of topics that have to be investigated further. The future work topics can be split into two categories: the programming and the evaluation. 
+
+\subsection{Programming Part}
+The current pipeline supports most of the features used in the evaluation part, especially on the generational part. However, some metrics, especially the spatial-temporal image consistency parts, only exist as code fragments that can be adapted into modules. Overall, in the current space of LDMs, there is so much going on, leading to new technical findings that could also be adapted into more modules.
+
+Also, user experience is currently limited. Configuration must be done in code, and the functional programming style is intuitive for computer science students but probably not for most others. A user interface a la \href{https://github.com/comfyanonymous/ComfyUI}{ComfyUI} would be a good thesis topic, especially addressing the security problems mentioned above. Also, performance is a significant point, especially parallelism, which could be used with enough computing power.
+
+Moving away from my pipeline, enhancing ALDM could be another interesting topic. As mentioned above, expanding it with the input of depth maps or making it possible to infer information from previously generated images could be really interesting, resulting probably in results close to or even succeeding pure synthetic data.
+
+\subsection{Evaluation Part}
+
+While the current evaluation methods and settings are chosen by carefully analyzing different smaller samples, there are so many configuration options that it is not practical to explore all possible combinations. More tests can be quickly adapted to the existing pipelines, potentially yielding different results from those presented here. One option could be to use Stable Diffusion XL \cite{podell2023sdxlimprovinglatentdiffusion} instead of Stable Diffusion 1.5, which is often regarded as a superior diffusion model. \href{https://huggingface.co/docs/diffusers/v0.20.0/en/api/pipelines/controlnet_sdxl}{New ControlNets} have been released recently, enabling their integration into the pipeline as the image-to-image base. Additionally, training custom models could significantly improve some models' performance and is worth exploring, especially for the ALDM module, but also for addressing the temporal-spatial consistency problem discussed above.
+
+Furthermore, other evaluation methods could be employed, particularly those with a greater focus on the image quality of the outputs from the different models. Examples of metrics could be taken from \autoref{ch:exploring_generative_ai_for_sim2real_in_driving_data_synthesis}.

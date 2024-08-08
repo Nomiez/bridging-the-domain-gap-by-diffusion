@@ -1,0 +1,166 @@
+%   |'''''''''''''╔╬╬╬╬╬╬╬╬  _____ ______       _____ ______       ___  __
+%   |            ╔╬╬╬╬╬╬╬╬╬ |\   _ \  _   \    |\   _ \  _  \    |\  \|\  \
+%   | ░░         ╬╬╬╬╬╬╬╬╬╬  \ \  \\__\ \  \   \ \  \\__\ \  \   \ \  \/  /|_
+%    ░░░░        ╬╬╬╬╬╬╬╬╬╬   \ \  \|__| \  \   \ \  \|__| \  \   \ \   ___  \
+%   ░░░░░╦╬╦    ╔╬╬╬╬╬╬╬╬╬╬    \ \  \   \ \  \   \ \  \   \ \  \   \ \  \ \   \
+%  ░░░░░╬╬╬╬ ▓▓└╬╬╬╬╬╬╬╬╬╬╬     \ \__\   \ \__\   \ \__\   \ \__\   \ \__\ \___\
+% ░░░░░╔╬╬╬ ▓▓▓  ╓╬╬╬╬╬╬╬╬╬      \|__|    \|__|    \|__|    \|__|    \|__| \|__|
+% ░░░░░╠╬╬╬ ▓▓▓  └╬╬╬╬╬╬╬╬╬
+%  ░░░░└╬╬╬╬ ▓▓   ╬╬╬╬╬╬╬╬╬  Lehrstuhl für Mensch-Maschine-Kommunikation
+%  ░░░░░╙╬╬╬╩            ╬╬  Technische Universität München
+%   ░░░░░░╚ '''''''''''''''
+%    ░░░
+%
+%
+%    Copyright (C) Second Adapted Version by Stefan Hörmann (s.hoermann@tum.de)
+%    First Adapted Version by Tiefenbacher (philipp.tiefenbacher@tum.de)
+% 	 Original version from Moritz Kaiser
+%    Institute for Human-Machine Communication
+%    Technische Universität München, Germany
+%    
+%
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Document:       Template for master's thesis at our institute
+%    Version:        0.6
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{mmkthesis} %set to mmkthesis_deutsch when writing in german, mmkthesis for English
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Include packages, these are only the basic packages %
+% Add own things if you want                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[english]{babel}               
+% We want to have some math
+\usepackage{amsmath}
+% For the set of real numbers
+\usepackage{amsfonts}
+% Nice figures
+\usepackage{graphicx}
+% with subfigures
+\usepackage[tight]{subfigure}
+% Change font size of captions (standard small)
+\usepackage[font=small,labelfont=bf]{caption} 
+% More beautiful tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+% For pseudo codes (don't forget the noend option)
+\usepackage{algorithmic}
+\usepackage{algorithm}
+%For automatic links on references/citations
+\usepackage{hyperref}
+
+%create nice graphics with tikz. We recommend to convert your matlab plots with matplotlib2tikz or matlab2tikz to a tikz file.
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+
+%convert eps to pdf --> faster compilation of document
+%\usepackage{epstopdf}
+
+%extended enumeration environemt, e.g., inline enumerations
+%\usepackage{enumitem}
+
+%want to read and revise your printed document. Use double space to have more space for corrections between lines.
+%\usepackage{setspace}
+%\doublespacing
+
+%more beautiful fraactions
+%\usepackage{nicefrac}
+
+%you want to add an url?
+%\usepackage{url}
+
+% Make overfull errors more visible in the output PDF by setting \overfullrule:
+\overfullrule=1pt
+
+% Own commands - very helpful
+\input frontmatter/newcommands.tex
+
+% PDF Package
+\usepackage{pdfpages}
+
+% Code Package
+\usepackage{listings}
+
+% Icons
+\usepackage{fontawesome}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document information for the titlepage        %
+% Capitalize your title in APA style!           %
+% See: https://capitalizemytitle.com/style/APA/ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\mmktitle}{Bridging the Domain Gap \\\vspace{0.2cm} in Tracking by Diffusion}    
+            % does not occupy three lines
+\newcommand{\mmkauthor}{Simon Okutan}                             % You, the author, no plagiarism
+\newcommand{\mmkadvisor}{Philipp Wolters M.Sc., Fabian Herzog Ph.D.}   % Your advisor
+				%in case of a B.Sc. or M.Sc title: NameOfYou/YourAdvisor, B.Sc.
+\newcommand{\mmktypeofwork}{Bachelor's Thesis}                        % Bachelor/Master/IDP, etc.        
+\newcommand{\startedon}{08.04.2024}                                   % Started on
+\newcommand{\handedinon}{08.08.2024}                                 % Handed in on
+
+\begin{document}
+%%%%%%%%%%%
+%if you write in german, uncomment the next line
+%\selectlanguage{german}   
+%%%%%%%%%%%
+
+\titlepage    % The TUM typical title page, defined in the mmkthesis class
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontmatter, usually incorporates acknowledgements and abstract, see %
+%             http://en.wikipedia.org/wiki/Book_design                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+% \frontmatter, \mainmatter, \backmatter is for the book class
+\frontmatter
+\input{frontmatter/abstract.tex}
+\tableofcontents
+
+%%%%%%%%%%%%%%
+% Mainmatter %
+%%%%%%%%%%%%%%
+\mainmatter
+% Template information (to be deleted in the final version)
+% \input{template_information/chapter.tex}
+
+% Introduction
+\input{mainmatter/01_introduction.tex}
+% Background
+\input{mainmatter/02_background.tex}
+% Related work
+\input{mainmatter/03_related_work.tex}
+% Own work
+\input{mainmatter/04_own_work.tex}
+% Results
+\input{mainmatter/05_evaluation.tex}
+% Conlusion and outlook
+\input{mainmatter/06_conclusion.tex}
+
+%%%%%%%%%%%%%%
+% Backmatter %
+%%%%%%%%%%%%%%
+\cleardoublepage
+%\begin{appendix}
+%\input{backmatter/appendix1.tex}
+%\end{appendix}
+%\backmatter % Here, because appendix has still the mainmatter formatting
+
+% Writes only, e.g., "bibliography" on top of those sections
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+  
+\cleardoublepage
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{alpha} % Bibliography
+% Add your works that are not cited in the text with the \nocite* command
+
+
+\bibliography{bibliography/thesis}
+
+\end{document}
