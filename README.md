@@ -24,7 +24,7 @@ Please make sure to have [CUDA](https://developer.nvidia.com/cuda-toolkit) insta
 To install this project, first setup a [Conda](https://www.anaconda.com/download/) environment running Python version 
 1.8.
 ```bash
-conda create -n sdpipeline python=1.8
+conda env create -y -f=environment.yml
 conda activate sdpipeline
 ```
 If everything worked, please install torch next into the environment
