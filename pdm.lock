@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:bd7cbde8a8bdcdd463af29a20f550b83ec0d57494f0dfb85a616b39b15e794ef"
+content_hash = "sha256:62cea1df83b676ae171f12ee50e6b20b08dd6a5eeacb51b3f6f1450a47c09494"
 
 [[package]]
 name = "absl-py"
@@ -145,7 +145,7 @@ dependencies = [
     "kornia==0.6",
     "mit-semseg>=1.0.0",
     "natsort>=8.4.0",
-    "numpy==1.23.1",
+    "numpy>=1.23.1",
     "omegaconf==2.1.1",
     "open-clip-torch==2.0.2",
     "opencv-contrib-python",
@@ -327,6 +327,29 @@ files = [
 ]
 
 [[package]]
+name = "carla"
+version = "0.9.15"
+summary = "Python API for communicating with the CARLA server."
+groups = ["default", "dev"]
+files = [
+    {file = "carla-0.9.15-cp38-cp38-manylinux_2_27_x86_64.whl", hash = "sha256:19a269511d31cd6ca47cc46297afbcc93be659ba0af852c244e3cadf55086d95"},
+    {file = "carla-0.9.15-cp38-cp38-win_amd64.whl", hash = "sha256:dc597b6a91b819b54afd5f1c32d401f066ce77676a0359b7470055d9bab95954"},
+]
+
+[[package]]
+name = "carla-module"
+version = "0.1.0"
+requires_python = "==3.8.*"
+editable = true
+path = "./modules/carla-module"
+summary = "Default template for PDM package"
+groups = ["default", "dev"]
+dependencies = [
+    "carla>=0.9.15",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
+]
+
+[[package]]
 name = "certifi"
 version = "2024.6.2"
 requires_python = ">=3.6"
@@ -418,15 +441,29 @@ files = [
 ]
 
 [[package]]
+name = "convert-depth-format"
+version = "0.1.0"
+requires_python = "==3.8.*"
+editable = true
+path = "./modules/convert-depth-format"
+summary = "Default template for PDM package"
+groups = ["default", "dev"]
+dependencies = [
+    "numpy>=1.23.1",
+    "pillow==10.3.0",
+    "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
+]
+
+[[package]]
 name = "convert-seg-format"
 version = "0.1.0"
 requires_python = "==3.8.*"
 editable = true
 path = "./modules/convert-seg-format"
 summary = "Default template for PDM package"
-groups = ["dev"]
+groups = ["default", "dev"]
 dependencies = [
-    "numpy",
+    "numpy>=1.23.1",
     "pillow==10.3.0",
     "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
 ]
@@ -599,7 +636,7 @@ files = [
 name = "flatbuffers"
 version = "24.3.25"
 summary = "The FlatBuffers serialization format for Python"
-groups = ["dev"]
+groups = ["default", "dev"]
 files = [
     {file = "flatbuffers-24.3.25-py2.py3-none-any.whl", hash = "sha256:8dbdec58f935f3765e4f7f3cf635ac3a77f83568138d6a2311f524ec96364812"},
     {file = "flatbuffers-24.3.25.tar.gz", hash = "sha256:de2ec5b203f21441716617f38443e0a8ebf3d25bf0d9c0bb0ce68fa00ad546a4"},
@@ -920,6 +957,7 @@ groups = ["default", "dev"]
 dependencies = [
     "accelerate>=0.17.0",
     "diffusers>=0.27",
+    "numpy>=1.23.1",
     "sd-pipeline-typing @ file:///${PROJECT_ROOT}/modules/sd-pipeline-typing",
     "torch",
 ]
@@ -1608,7 +1646,7 @@ files = [
 name = "onnxruntime"
 version = "1.8.0"
 summary = "ONNX Runtime is a runtime accelerator for Machine Learning models"
-groups = ["dev"]
+groups = ["default", "dev"]
 dependencies = [
     "flatbuffers",
     "numpy>=1.16.6",
@@ -3499,7 +3537,7 @@ requires_python = "==3.8.*"
 editable = true
 path = "./modules/yolox-module"
 summary = "Object detection with YOLOX."
-groups = ["dev"]
+groups = ["default", "dev"]
 dependencies = [
     "onnxruntime==1.8.0",
     "torch>=1.7",
