@@ -1,4 +1,4 @@
-name: bridging-the-domain-gap-by-diffusion
+name: sdpipeline
 channels:
   - conda-forge
   - nodefaults
