@@ -15,6 +15,10 @@ dependencies = [
     "aldm @ file:///${PROJECT_ROOT}/modules/aldm",
     "convert2coco @ file:///${PROJECT_ROOT}/modules/convert2coco",
     "upscale-downscale-details-enhancer @ file:///${PROJECT_ROOT}/modules/upscale-downscale-details-enhancer",
+    "yolox-module @ file:///${PROJECT_ROOT}/modules/yolox-module",
+    "convert-seg-format @ file:///${PROJECT_ROOT}/modules/convert-seg-format",
+    "carla-module @ file:///${PROJECT_ROOT}/modules/carla-module",
+    "convert-depth-format @ file:///${PROJECT_ROOT}/modules/convert-depth-format",
 ]
 requires-python = "==3.8.*"
 readme = "README.md"
@@ -37,6 +41,7 @@ dev = [
     "-e file:///${PROJECT_ROOT}/modules/yolox-module#egg=yolox-module",
     "-e file:///${PROJECT_ROOT}/modules/convert-seg-format#egg=convert-seg-format",
     "-e file:///${PROJECT_ROOT}/modules/carla-module#egg=carla-module",
+    "-e file:///${PROJECT_ROOT}/modules/convert-depth-format#egg=convert-depth-format",
 ]
 lint = [
     "pre-commit>=3.0.0",

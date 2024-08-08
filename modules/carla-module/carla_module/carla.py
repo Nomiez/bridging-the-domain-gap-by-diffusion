@@ -16,8 +16,7 @@ class Carla(Module):
         self.config = config
 
     @staticmethod
-    def _import_class_from_file(file_path: str, class_name: str) -> type:
-        file_path = Path(file_path)
+    def _import_class_from_file(file_path: Path, class_name: str) -> type:
         module_name = file_path.stem
 
         spec = importlib.util.spec_from_file_location(module_name, file_path)
@@ -33,8 +32,7 @@ class Carla(Module):
         path = Path(self.config.scripts_dir)
 
         for script in path.glob("*.py"):
-            module_name = script.stem
-            class_ = Carla._import_class_from_file(module_name, "CarlaScript")
+            class_ = Carla._import_class_from_file(script, "CarlaScript")
 
             class_instance = class_(config=self.config)
             class_instance.pre()
