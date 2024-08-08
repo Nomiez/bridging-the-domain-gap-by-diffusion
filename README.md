@@ -89,8 +89,9 @@ for testing. The results can also be found in the scripts (for RMSE in the plot.
 
 ## Where to test?
 
-On the server at the chair generation and Human-Machine-Communication is a deployed version of this code. You can find there also all 
-scripts, datasets and other results like the yolox weights.
+On the server at the chair generation and Human-Machine-Communication is a deployed version of this code. 
+You can find there also all scripts, datasets and other results like the yolox weights. The conda environment
+has the name "application". For more information feel free to contact me :)
 
 ## The scripts folder
 
